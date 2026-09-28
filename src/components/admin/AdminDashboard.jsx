@@ -98,42 +98,46 @@ export const AdminDashboard = () => {
           </span>
         </div>
 
-        {/* 3. ห้องที่มีผู้เช่า */}
-        <div className="bg-white rounded-2xl border border-sky-100 p-4 shadow-xs">
-          <div className="flex items-center justify-between text-sky-600">
-            <span className="text-xs font-medium">ห้องมีผู้เช่า</span>
+        {/* 3. ห้องที่มีผู้เช่า (สีแดง) */}
+        <div className="bg-white rounded-2xl border border-rose-100 p-4 shadow-xs">
+          <div className="flex items-center justify-between text-rose-600">
+            <span className="text-xs font-medium">ห้องมีผู้เช่า (Occupied)</span>
             <Users className="w-4 h-4" />
           </div>
-          <span className="text-2xl font-bold text-sky-800 mt-2 block">
+          <span className="text-2xl font-bold text-rose-700 mt-2 block">
             {occupiedRooms} <span className="text-xs font-normal text-slate-400">ห้อง</span>
           </span>
-          <span className="text-2xs text-sky-600 font-medium">
+          <span className="text-2xs text-rose-600 font-medium">
             อัตราเข้าพัก {aiAnalyticsSummary.occupancyRate}
           </span>
         </div>
 
-        {/* 4. ห้องรอเข้าพัก */}
-        <div className="bg-white rounded-2xl border border-indigo-100 p-4 shadow-xs">
-          <div className="flex items-center justify-between text-indigo-600">
-            <span className="text-xs font-medium">ห้องรอเข้าพัก</span>
-            <Clock className="w-4 h-4" />
-          </div>
-          <span className="text-2xl font-bold text-indigo-700 mt-2 block">
-            {reservedRooms} <span className="text-xs font-normal text-slate-400">ห้อง</span>
-          </span>
-          <span className="text-2xs text-slate-400">ทำสัญญาจองแล้ว</span>
-        </div>
-
-        {/* 5. ห้องปิดปรับปรุง */}
+        {/* 4. ห้องรอเข้าพัก (สีส้ม) */}
         <div className="bg-white rounded-2xl border border-amber-100 p-4 shadow-xs">
           <div className="flex items-center justify-between text-amber-600">
-            <span className="text-xs font-medium">ห้องปิดปรับปรุง</span>
-            <Wrench className="w-4 h-4" />
+            <span className="text-xs font-medium">ห้องรอเข้าพัก (Reserved)</span>
+            <Clock className="w-4 h-4" />
           </div>
           <span className="text-2xl font-bold text-amber-700 mt-2 block">
+            {reservedRooms} <span className="text-xs font-normal text-slate-400">ห้อง</span>
+          </span>
+          <span className="text-2xs text-amber-600 font-medium">
+            ยืนยันสัญญาแล้ว รอย้ายเข้า
+          </span>
+        </div>
+
+        {/* 5. ห้องปิดปรับปรุง (สีเทา) */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+          <div className="flex items-center justify-between text-slate-600">
+            <span className="text-xs font-medium">ปิดปรับปรุง (Maint.)</span>
+            <Wrench className="w-4 h-4" />
+          </div>
+          <span className="text-2xl font-bold text-slate-700 mt-2 block">
             {maintenanceRooms} <span className="text-xs font-normal text-slate-400">ห้อง</span>
           </span>
-          <span className="text-2xs text-amber-600">งานซ่อมบำรุงใหญ่</span>
+          <span className="text-2xs text-slate-500 font-medium">
+            ตัดออกจากห้องว่างชั่วคราว
+          </span>
         </div>
 
         {/* 6. จำนวนรายการค้างชำระ */}

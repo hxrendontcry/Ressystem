@@ -9,6 +9,16 @@ import {
   Clock,
   Wrench,
   DoorOpen,
+  Send,
+  Copy,
+  Check,
+  Share2,
+  Info,
+  ShieldAlert,
+  ChevronDown,
+  ChevronUp,
+  Link,
+  Users,
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import { Modal } from "../common/Modal";
@@ -18,6 +28,14 @@ export const AdminRoomManagement = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRoom, setEditingRoom] = useState(null);
+
+  // Invite Link Modal State for 1. ว่าง (Available)
+  const [inviteModalRoom, setInviteModalRoom] = useState(null);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [inviteRecipient, setInviteRecipient] = useState({ name: "", phone: "", email: "" });
+
+  // Guide accordion
+  const [showStatusGuide, setShowStatusGuide] = useState(true);
 
   // Filters & View Mode
   const [viewMode, setViewMode] = useState("floorPlan"); // 'floorPlan' | 'table'
@@ -99,19 +117,43 @@ export const AdminRoomManagement = () => {
     }
   };
 
+  // ตามข้อกำหนดในรูปภาพ:
+  // 1. ว่าง (Available) -> สีเขียว
+  // 2. มีผู้เช่า (Occupied) -> สีแดง
+  // 3. รอเข้าพัก (Reserved) -> สีส้ม
+  // 4. ปิดปรับปรุง (Maintenance) -> สีเทา
   const getStatusBadge = (st) => {
     switch (st) {
       case "available":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200";
+        return "bg-emerald-50 text-emerald-700 border-emerald-300";
       case "occupied":
-        return "bg-sky-50 text-sky-700 border-sky-200";
+        return "bg-rose-50 text-rose-700 border-rose-300";
       case "reserved":
-        return "bg-indigo-50 text-indigo-700 border-indigo-200";
+        return "bg-amber-50 text-amber-700 border-amber-300";
       case "maintenance":
-        return "bg-amber-50 text-amber-800 border-amber-200";
+        return "bg-slate-100 text-slate-700 border-slate-300";
       default:
         return "bg-slate-50 text-slate-700 border-slate-200";
     }
+  };
+
+  const handleCopyInviteLink = (r) => {
+    const link = `https://ressystem.vercel.app/register-contract?room=${r.roomNumber}&token=INV-${r.roomNumber}-${Date.now()}`;
+    navigator.clipboard?.writeText(link);
+    setCopiedLink(true);
+    showToast(`คัดลอก Invite Link สำหรับห้อง ${r.roomNumber} เรียบร้อยแล้ว`, "success");
+    setTimeout(() => setCopiedLink(false), 3000);
+  };
+
+  const handleSendInvite = (e) => {
+    e.preventDefault();
+    if (!inviteRecipient.name.trim() || (!inviteRecipient.phone.trim() && !inviteRecipient.email.trim())) {
+      showToast("กรุณาระบุชื่อผู้เช่ารายใหม่และเบอร์โทรหรืออีเมล", "error");
+      return;
+    }
+    showToast(`ส่งคำเชิญทำสัญญาเช่าห้อง ${inviteModalRoom.roomNumber} ไปยัง ${inviteRecipient.name} สำเร็จแล้ว`, "success");
+    setInviteModalRoom(null);
+    setInviteRecipient({ name: "", phone: "", email: "" });
   };
 
   // Filtered rooms
@@ -159,7 +201,126 @@ export const AdminRoomManagement = () => {
         </button>
       </div>
 
-      {/* Quick Summary Chips */}
+      {/* 📋 ตารางข้อกำหนดและสัญลักษณ์สีสถานะห้องพัก (อ้างอิงตามข้อกำหนดของระบบ) */}
+      <div className="bg-white rounded-2xl border border-sky-100 p-5 shadow-xs transition-all">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-sky-50 flex items-center justify-center text-sky-600">
+              <Info className="w-4 h-4" />
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-slate-800">
+                ข้อกำหนดและสัญลักษณ์สีสถานะห้องพัก (Room Status Specifications)
+              </h4>
+              <p className="text-2xs text-slate-500">
+                มาตรฐานการควบคุมสถานะห้องพักและการจัดการสิทธิ์ผู้เช่า
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setShowStatusGuide(!showStatusGuide)}
+            className="flex items-center gap-1 text-xs text-sky-600 font-medium hover:text-sky-700 bg-sky-50 px-2.5 py-1.5 rounded-lg border border-sky-200 transition-colors"
+          >
+            <span>{showStatusGuide ? "ซ่อนคำอธิบาย" : "ดูคำอธิบายสถานะ"}</span>
+            {showStatusGuide ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          </button>
+        </div>
+
+        {showStatusGuide && (
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full text-xs text-left">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 whitespace-nowrap">
+                  <th className="py-2.5 px-3 font-semibold w-48">สถานะห้อง</th>
+                  <th className="py-2.5 px-3 font-semibold w-36">สัญลักษณ์สี</th>
+                  <th className="py-2.5 px-3 font-semibold">คำอธิบายและการทำงานของระบบ</th>
+                  <th className="py-2.5 px-3 font-semibold text-right w-28">จำนวนปัจจุบัน</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-slate-700">
+                {/* 1. ว่าง */}
+                <tr className="hover:bg-emerald-50/30 transition-colors">
+                  <td className="py-3 px-3 font-bold text-emerald-800 whitespace-nowrap">
+                    1. ว่าง (Available)
+                  </td>
+                  <td className="py-3 px-3 whitespace-nowrap">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-300">
+                      <span className="w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-emerald-200" />
+                      <span>- สีเขียว</span>
+                    </span>
+                  </td>
+                  <td className="py-3 px-3 text-slate-600 leading-relaxed">
+                    ห้องพักว่าง ไม่มีผู้เช่า ผู้ดูแลสามารถส่งคำเชิญ (<span className="font-semibold text-emerald-700">Invite Link</span>) เพื่อทำสัญญาเช่ากับผู้เช่ารายใหม่ได้
+                  </td>
+                  <td className="py-3 px-3 text-right font-bold text-emerald-700 whitespace-nowrap">
+                    {availableCount} ห้อง
+                  </td>
+                </tr>
+
+                {/* 2. มีผู้เช่า */}
+                <tr className="hover:bg-rose-50/30 transition-colors">
+                  <td className="py-3 px-3 font-bold text-rose-800 whitespace-nowrap">
+                    2. มีผู้เช่า (Occupied)
+                  </td>
+                  <td className="py-3 px-3 whitespace-nowrap">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-300">
+                      <span className="w-3 h-3 rounded-full bg-rose-500 ring-2 ring-rose-200" />
+                      <span>- สีแดง</span>
+                    </span>
+                  </td>
+                  <td className="py-3 px-3 text-slate-600 leading-relaxed">
+                    มีผู้เช่าพักอาศัยปัจจุบัน <span className="font-semibold text-rose-600">ระบบไม่อนุญาตให้ลงทะเบียนผู้เช่าซ้ำในห้องนี้</span>
+                  </td>
+                  <td className="py-3 px-3 text-right font-bold text-rose-700 whitespace-nowrap">
+                    {occupiedCount} ห้อง
+                  </td>
+                </tr>
+
+                {/* 3. รอเข้าพัก */}
+                <tr className="hover:bg-amber-50/30 transition-colors">
+                  <td className="py-3 px-3 font-bold text-amber-800 whitespace-nowrap">
+                    3. รอเข้าพัก (Reserved)
+                  </td>
+                  <td className="py-3 px-3 whitespace-nowrap">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+                      <span className="w-3 h-3 rounded-full bg-amber-500 ring-2 ring-amber-200" />
+                      <span>- สีส้ม</span>
+                    </span>
+                  </td>
+                  <td className="py-3 px-3 text-slate-600 leading-relaxed">
+                    ผู้เช่ายืนยันสัญญาแล้ว แต่อยู่ระหว่างรอวันย้ายเข้าตามกำหนดในสัญญาเช่า
+                  </td>
+                  <td className="py-3 px-3 text-right font-bold text-amber-700 whitespace-nowrap">
+                    {reservedCount} ห้อง
+                  </td>
+                </tr>
+
+                {/* 4. ปิดปรับปรุง */}
+                <tr className="hover:bg-slate-100/50 transition-colors">
+                  <td className="py-3 px-3 font-bold text-slate-800 whitespace-nowrap">
+                    4. ปิดปรับปรุง (Maintenance)
+                  </td>
+                  <td className="py-3 px-3 whitespace-nowrap">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300">
+                      <span className="w-3 h-3 rounded-full bg-slate-400 border border-slate-500 ring-2 ring-slate-200" />
+                      <span>- สีเทา</span>
+                    </span>
+                  </td>
+                  <td className="py-3 px-3 text-slate-600 leading-relaxed">
+                    ห้องพักอยู่ระหว่างการซ่อมแซมหรือรีโนเวต ระบบจะตัดออกจากรายการห้องว่างชั่วคราว
+                  </td>
+                  <td className="py-3 px-3 text-right font-bold text-slate-700 whitespace-nowrap">
+                    {maintenanceCount} ห้อง
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Quick Summary Chips (ตรงตามสีข้อกำหนด: เขียว/แดง/ส้ม/เทา) */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
         <button
           onClick={() => setSelectedStatus("all")}
@@ -174,38 +335,47 @@ export const AdminRoomManagement = () => {
         </button>
 
         <button
-          onClick={() => setSelectedStatus("occupied")}
-          className={`p-3 rounded-xl border text-left transition-all ${
-            selectedStatus === "occupied"
-              ? "bg-sky-600 text-white border-sky-600 shadow-xs"
-              : "bg-white text-sky-800 border-sky-100 hover:border-sky-300"
-          }`}
-        >
-          <span className="text-2xs opacity-80 block">มีผู้เช่า (Occupied)</span>
-          <span className="text-xl font-bold">{occupiedCount} ห้อง</span>
-        </button>
-
-        <button
           onClick={() => setSelectedStatus("available")}
           className={`p-3 rounded-xl border text-left transition-all ${
             selectedStatus === "available"
               ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
-              : "bg-white text-emerald-800 border-emerald-100 hover:border-emerald-300"
+              : "bg-white text-emerald-800 border-emerald-200 hover:border-emerald-300"
           }`}
         >
-          <span className="text-2xs opacity-80 block">ห้องว่าง (Available)</span>
+          <span className="text-2xs opacity-80 block flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span>1. ว่าง (เขียว)</span>
+          </span>
           <span className="text-xl font-bold">{availableCount} ห้อง</span>
+        </button>
+
+        <button
+          onClick={() => setSelectedStatus("occupied")}
+          className={`p-3 rounded-xl border text-left transition-all ${
+            selectedStatus === "occupied"
+              ? "bg-rose-600 text-white border-rose-600 shadow-xs"
+              : "bg-white text-rose-800 border-rose-200 hover:border-rose-300"
+          }`}
+        >
+          <span className="text-2xs opacity-80 block flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-rose-400" />
+            <span>2. มีผู้เช่า (แดง)</span>
+          </span>
+          <span className="text-xl font-bold">{occupiedCount} ห้อง</span>
         </button>
 
         <button
           onClick={() => setSelectedStatus("reserved")}
           className={`p-3 rounded-xl border text-left transition-all ${
             selectedStatus === "reserved"
-              ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
-              : "bg-white text-indigo-800 border-indigo-100 hover:border-indigo-300"
+              ? "bg-amber-600 text-white border-amber-600 shadow-xs"
+              : "bg-white text-amber-800 border-amber-200 hover:border-amber-300"
           }`}
         >
-          <span className="text-2xs opacity-80 block">รอเข้าพัก (Reserved)</span>
+          <span className="text-2xs opacity-80 block flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-400" />
+            <span>3. รอเข้าพัก (ส้ม)</span>
+          </span>
           <span className="text-xl font-bold">{reservedCount} ห้อง</span>
         </button>
 
@@ -213,11 +383,14 @@ export const AdminRoomManagement = () => {
           onClick={() => setSelectedStatus("maintenance")}
           className={`p-3 rounded-xl border text-left transition-all ${
             selectedStatus === "maintenance"
-              ? "bg-amber-600 text-white border-amber-600 shadow-xs"
-              : "bg-white text-amber-800 border-amber-100 hover:border-amber-300"
+              ? "bg-slate-600 text-white border-slate-600 shadow-xs"
+              : "bg-white text-slate-800 border-slate-200 hover:border-slate-300"
           }`}
         >
-          <span className="text-2xs opacity-80 block">ปิดปรับปรุง (Maint.)</span>
+          <span className="text-2xs opacity-80 block flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-slate-400" />
+            <span>4. ปิดปรับปรุง (เทา)</span>
+          </span>
           <span className="text-xl font-bold">{maintenanceCount} ห้อง</span>
         </button>
       </div>
@@ -323,17 +496,17 @@ export const AdminRoomManagement = () => {
                           key={room.id}
                           className={`p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
                             isOccupied
-                              ? "bg-sky-50/40 border-sky-200 hover:border-sky-400"
+                              ? "bg-rose-50/40 border-rose-200 hover:border-rose-400 shadow-2xs"
                               : isAvailable
-                              ? "bg-emerald-50/40 border-emerald-200 hover:border-emerald-400"
+                              ? "bg-emerald-50/40 border-emerald-200 hover:border-emerald-400 shadow-2xs"
                               : isReserved
-                              ? "bg-indigo-50/40 border-indigo-200 hover:border-indigo-400"
-                              : "bg-amber-50/40 border-amber-200 hover:border-amber-400"
+                              ? "bg-amber-50/40 border-amber-200 hover:border-amber-400 shadow-2xs"
+                              : "bg-slate-100/60 border-slate-300 hover:border-slate-400 shadow-2xs"
                           }`}
                         >
                           <div>
                             <div className="flex items-center justify-between mb-1.5">
-                              <span className="font-bold text-sm text-slate-800">
+                              <span className="font-bold text-base text-slate-800">
                                 {room.roomNumber}
                               </span>
                               <span
@@ -349,15 +522,40 @@ export const AdminRoomManagement = () => {
                               {room.type} • ฿{room.price.toLocaleString()}
                             </p>
 
-                            <div className="mt-2 pt-2 border-t border-slate-100/80">
+                            <div className="mt-2 pt-2 border-t border-slate-100">
                               <span className="text-2xs text-slate-400 block">ผู้พักอาศัย:</span>
-                              <span className="text-2xs font-medium text-slate-700 block truncate">
-                                {tenant ? tenant.name : isAvailable ? "— ห้องว่าง —" : "—"}
+                              <span className="text-2xs font-semibold text-slate-700 block truncate">
+                                {tenant ? (
+                                  tenant.name
+                                ) : isAvailable ? (
+                                  <span className="text-emerald-700 font-normal">พร้อมปล่อยเช่า</span>
+                                ) : isReserved ? (
+                                  <span className="text-amber-700 font-normal">รอย้ายเข้าตามสัญญา</span>
+                                ) : (
+                                  <span className="text-slate-500 font-normal">งดให้บริการชั่วคราว</span>
+                                )}
                               </span>
                             </div>
+
+                            {/* 1.3.2.1 Invite Link for available rooms */}
+                            {isAvailable && (
+                              <button
+                                onClick={() => setInviteModalRoom(room)}
+                                className="w-full mt-2.5 flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-2xs font-semibold shadow-xs transition-colors"
+                              >
+                                <Send className="w-3 h-3" />
+                                <span>ส่ง Invite Link</span>
+                              </button>
+                            )}
+
+                            {isOccupied && (
+                              <div className="mt-2.5 text-3xs text-rose-700 bg-rose-100/60 px-1.5 py-0.5 rounded text-center">
+                                ล็อกสิทธิ์ (ห้ามลงทะเบียนซ้ำ)
+                              </div>
+                            )}
                           </div>
 
-                          <div className="mt-3 flex items-center justify-end gap-1.5 pt-2 border-t border-slate-100/80">
+                          <div className="mt-3 flex items-center justify-end gap-1.5 pt-2 border-t border-slate-100">
                             <button
                               onClick={() => openEditModal(room)}
                               title="แก้ไขห้องพัก"
@@ -397,7 +595,7 @@ export const AdminRoomManagement = () => {
                 <th className="py-3.5 px-4 font-semibold">ผู้เช่าปัจจุบัน</th>
                 <th className="py-3.5 px-4 font-semibold min-w-[180px]">สิ่งอำนวยความสะดวก</th>
                 <th className="py-3.5 px-4 font-semibold">สถานะ</th>
-                <th className="py-3.5 px-4 font-semibold text-center">จัดการ</th>
+                <th className="py-3.5 px-4 font-semibold text-center">คำเชิญ / จัดการ</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -419,7 +617,16 @@ export const AdminRoomManagement = () => {
                       ฿{room.price.toLocaleString()}
                     </td>
                     <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-700">
-                      {tenant ? tenant.name : <span className="text-slate-400">-</span>}
+                      {tenant ? (
+                        <div>
+                          <span className="font-semibold text-slate-800">{tenant.name}</span>
+                          <span className="block text-3xs text-rose-600">(ห้ามลงทะเบียนซ้ำ)</span>
+                        </div>
+                      ) : room.status === "available" ? (
+                        <span className="text-emerald-700 font-medium">ห้องว่างพร้อมเช่า</span>
+                      ) : (
+                        <span className="text-slate-400">-</span>
+                      )}
                     </td>
                     <td className="py-3.5 px-4 text-xs text-slate-600 max-w-xs">
                       {room.amenities?.join(", ")}
@@ -435,6 +642,16 @@ export const AdminRoomManagement = () => {
                     </td>
                     <td className="py-3.5 px-4 text-center whitespace-nowrap">
                       <div className="flex items-center justify-center gap-2">
+                        {room.status === "available" && (
+                          <button
+                            onClick={() => setInviteModalRoom(room)}
+                            title="ส่ง Invite Link ทำสัญญา"
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100"
+                          >
+                            <Send className="w-3 h-3" />
+                            <span>Invite</span>
+                          </button>
+                        )}
                         <button
                           onClick={() => openEditModal(room)}
                           title="แก้ไขห้องพัก"
@@ -458,6 +675,105 @@ export const AdminRoomManagement = () => {
           </table>
         </div>
       )}
+
+      {/* Modal: ส่งคำเชิญ (Invite Link) สำหรับ 1. ว่าง (Available) */}
+      <Modal
+        isOpen={Boolean(inviteModalRoom)}
+        onClose={() => setInviteModalRoom(null)}
+        title={`ส่งคำเชิญทำสัญญาเช่า (Invite Link) - ห้อง ${inviteModalRoom?.roomNumber}`}
+        maxWidth="max-w-lg"
+      >
+        <div className="space-y-4">
+          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 leading-relaxed">
+            ห้องพักนี้อยู่ในสถานะ <span className="font-bold">ว่าง (Available - สีเขียว)</span> สามารถคัดลอกลิงก์หรือส่งคำเชิญให้ผู้เช่ารายใหม่เพื่อลงทะเบียนและทำสัญญาเช่าออนไลน์ได้ทันที
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              Invite Link สำหรับผู้เช่ารายใหม่
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                readOnly
+                value={`https://ressystem.vercel.app/register-contract?room=${inviteModalRoom?.roomNumber}&token=INV-${inviteModalRoom?.roomNumber}-SECURE`}
+                className="flex-1 px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-mono select-all"
+              />
+              <button
+                onClick={() => handleCopyInviteLink(inviteModalRoom)}
+                className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700 shadow-xs shrink-0"
+              >
+                {copiedLink ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedLink ? "คัดลอกแล้ว" : "คัดลอกลิงก์"}</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-100 pt-3">
+            <h5 className="text-xs font-bold text-slate-700 mb-2">
+              หรือ ส่งคำเชิญตรงไปยังผู้เช่า (Direct Send)
+            </h5>
+            <form onSubmit={handleSendInvite} className="space-y-3">
+              <div>
+                <label className="block text-2xs font-medium text-slate-600 mb-1">
+                  ชื่อ-นามสกุล ผู้เช่ารายใหม่
+                </label>
+                <input
+                  type="text"
+                  placeholder="เช่น นายสมคิด สุขใจ"
+                  value={inviteRecipient.name}
+                  onChange={(e) => setInviteRecipient({ ...inviteRecipient, name: e.target.value })}
+                  className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg bg-white"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-2xs font-medium text-slate-600 mb-1">
+                    เบอร์โทรศัพท์ (SMS)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="08x-xxx-xxxx"
+                    value={inviteRecipient.phone}
+                    onChange={(e) => setInviteRecipient({ ...inviteRecipient, phone: e.target.value })}
+                    className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-2xs font-medium text-slate-600 mb-1">
+                    อีเมล (Email)
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="tenant@email.com"
+                    value={inviteRecipient.email}
+                    onChange={(e) => setInviteRecipient({ ...inviteRecipient, email: e.target.value })}
+                    className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg bg-white"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setInviteModalRoom(null)}
+                  className="px-4 py-2 text-xs text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200"
+                >
+                  ปิด
+                </button>
+                <button
+                  type="submit"
+                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-sky-600 rounded-lg hover:bg-sky-700 shadow-xs"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>ส่งคำเชิญ</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </Modal>
 
       {/* Modal: Create/Edit Room */}
       <Modal
