@@ -82,63 +82,62 @@ export const AdminRepairManagement = () => {
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
-              <th className="py-3 px-3 font-semibold">รหัสงาน</th>
-              <th className="py-3 px-3 font-semibold">ชื่อผู้เช่า</th>
-              <th className="py-3 px-3 font-semibold text-center">ห้อง</th>
-              <th className="py-3 px-3 font-semibold">ประเภทปัญหา</th>
-              <th className="py-3 px-3 font-semibold">ระดับความเร่งด่วน</th>
-              <th className="py-3 px-3 font-semibold">รายละเอียดปัญหา</th>
-              <th className="py-3 px-3 font-semibold">วันเวลาที่แจ้ง</th>
-              <th className="py-3 px-3 font-semibold">สถานะ</th>
-              <th className="py-3 px-3 font-semibold text-center">จัดการ</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">รหัสงาน</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">ชื่อผู้เช่า</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">ห้อง</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">ประเภทปัญหา</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">ระดับความเร่งด่วน</th>
+              <th className="py-3.5 px-4 font-semibold min-w-[260px]">รายละเอียดปัญหา</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">วันเวลาที่แจ้ง</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">สถานะ</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">จัดการ</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
             {repairs.map((rep) => (
               <tr key={rep.id} className="hover:bg-slate-50/80 transition-colors">
-                <td className="py-3 px-3 font-mono font-bold text-sky-900">{rep.id}</td>
-                <td className="py-3 px-3 font-medium text-slate-800">{rep.tenantName}</td>
-                <td className="py-3 px-3 text-center">
-                  <span className="font-bold text-xs bg-sky-50 text-sky-700 px-2 py-0.5 rounded border border-sky-200">
-                    {rep.roomNumber}
+                <td className="py-3.5 px-4 font-mono font-bold text-sky-900 whitespace-nowrap">{rep.id}</td>
+                <td className="py-3.5 px-4 font-medium text-slate-800 whitespace-nowrap">{rep.tenantName}</td>
+                <td className="py-3.5 px-3 text-center whitespace-nowrap">
+                  <span className="font-bold text-xs bg-sky-50 text-sky-700 px-2.5 py-1 rounded-lg border border-sky-200 inline-block">
+                    ห้อง {rep.roomNumber}
                   </span>
                 </td>
-                <td className="py-3 px-3">{rep.category}</td>
-                <td className="py-3 px-3">
+                <td className="py-3.5 px-4 whitespace-nowrap font-medium text-slate-700">{rep.category}</td>
+                <td className="py-3.5 px-4 text-center whitespace-nowrap">
                   <span
-                    className={`text-2xs px-2 py-0.5 rounded-full border ${getUrgencyBadge(
+                    className={`inline-block text-xs px-3 py-1 rounded-full border whitespace-nowrap ${getUrgencyBadge(
                       rep.urgency
                     )}`}
                   >
                     {rep.urgency}
                   </span>
                 </td>
-                <td className="py-3 px-3 max-w-xs">
-                  <span className="font-semibold text-slate-800 block truncate">{rep.title}</span>
-                  <span className="text-2xs text-slate-500 block truncate">{rep.description}</span>
+                <td className="py-3.5 px-4 min-w-[260px]">
+                  <span className="font-semibold text-slate-800 block text-xs">{rep.title}</span>
+                  <span className="text-2xs text-slate-500 block leading-relaxed mt-0.5 line-clamp-2">{rep.description}</span>
                   {rep.attachments && rep.attachments.length > 0 && (
-                    <span className="inline-flex items-center gap-1 text-2xs text-sky-600 mt-0.5">
+                    <span className="inline-flex items-center gap-1 text-2xs text-sky-600 mt-1 bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
                       <Image className="w-3 h-3" />
                       <span>มีรูป/คลิปแนบ</span>
                     </span>
                   )}
                 </td>
-                <td className="py-3 px-3 text-2xs text-slate-600">{rep.createdAt}</td>
-                <td className="py-3 px-3">
+                <td className="py-3.5 px-4 text-xs text-slate-600 whitespace-nowrap">{rep.createdAt}</td>
+                <td className="py-3.5 px-4 text-center whitespace-nowrap">
                   <span
-                    className={`text-2xs font-semibold px-2.5 py-1 rounded-full border ${getStatusBadge(
+                    className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full border whitespace-nowrap ${getStatusBadge(
                       rep.status
-                    )}`}
+                    ).className}`}
                   >
-                    {rep.status === "completed" && "เสร็จสิ้น"}
-                    {rep.status === "in_progress" && "กำลังดำเนินการ"}
-                    {rep.status === "pending" && "รอดำเนินการ"}
+                    {getStatusBadge(rep.status).icon}
+                    <span>{getStatusBadge(rep.status).label}</span>
                   </span>
                 </td>
-                <td className="py-3 px-3 text-center">
+                <td className="py-3.5 px-3 text-center whitespace-nowrap">
                   <button
                     onClick={() => handleOpenUpdate(rep)}
-                    className="px-2.5 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 rounded-lg text-2xs font-semibold"
+                    className="px-3 py-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 rounded-lg text-xs font-semibold whitespace-nowrap"
                   >
                     อัปเดตงาน
                   </button>

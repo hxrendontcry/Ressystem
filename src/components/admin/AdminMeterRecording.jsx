@@ -87,42 +87,42 @@ export const AdminMeterRecording = () => {
 
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
-              <th className="py-3 px-3 font-semibold">รอบเดือน/ปี</th>
-              <th className="py-3 px-3 font-semibold text-center">ห้อง</th>
-              <th className="py-3 px-3 font-semibold text-center text-sky-700">มิเตอร์น้ำ (ก่อน - หลัง)</th>
-              <th className="py-3 px-3 font-semibold text-center text-sky-700">หน่วยน้ำ (ค่าน้ำ)</th>
-              <th className="py-3 px-3 font-semibold text-center text-amber-700">มิเตอร์ไฟ (ก่อน - หลัง)</th>
-              <th className="py-3 px-3 font-semibold text-center text-amber-700">หน่วยไฟ (ค่าไฟ)</th>
-              <th className="py-3 px-3 font-semibold text-center">วันที่บันทึก</th>
+            <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 whitespace-nowrap text-xs">
+              <th className="py-3.5 px-4 font-semibold">รอบเดือน/ปี</th>
+              <th className="py-3.5 px-4 font-semibold text-center">ห้อง</th>
+              <th className="py-3.5 px-4 font-semibold text-center text-sky-700">มิเตอร์น้ำ (ก่อน - หลัง)</th>
+              <th className="py-3.5 px-4 font-semibold text-center text-sky-700">หน่วยน้ำ (ค่าน้ำ)</th>
+              <th className="py-3.5 px-4 font-semibold text-center text-amber-700">มิเตอร์ไฟ (ก่อน - หลัง)</th>
+              <th className="py-3.5 px-4 font-semibold text-center text-amber-700">หน่วยไฟ (ค่าไฟ)</th>
+              <th className="py-3.5 px-4 font-semibold text-center">วันที่บันทึก</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
             {meterLogs.map((log, idx) => (
-              <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
-                <td className="py-3 px-3 font-medium text-slate-800">{log.monthYear}</td>
-                <td className="py-3 px-3 text-center">
-                  <span className="font-bold text-sky-900 bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
+              <tr key={idx} className="hover:bg-slate-50/80 transition-colors whitespace-nowrap">
+                <td className="py-3.5 px-4 font-medium text-slate-800">{log.monthYear}</td>
+                <td className="py-3.5 px-4 text-center">
+                  <span className="font-bold text-sky-900 bg-sky-50 px-2.5 py-1 rounded-md border border-sky-200">
                     {log.roomNumber}
                   </span>
                 </td>
-                <td className="py-3 px-3 text-center">
+                <td className="py-3.5 px-4 text-center font-medium">
                   <span className="text-slate-400">{log.prevWaterMeter}</span> →{" "}
                   <span className="font-semibold text-sky-700">{log.currWaterMeter}</span>
                 </td>
-                <td className="py-3 px-3 text-center">
+                <td className="py-3.5 px-4 text-center">
                   <span className="font-bold text-slate-800">{log.waterUnits} หน่วย</span>
-                  <span className="block text-2xs text-sky-600">฿{log.waterAmount}</span>
+                  <span className="block text-xs text-sky-600">฿{log.waterAmount}</span>
                 </td>
-                <td className="py-3 px-3 text-center">
+                <td className="py-3.5 px-4 text-center font-medium">
                   <span className="text-slate-400">{log.prevElectricMeter}</span> →{" "}
                   <span className="font-semibold text-amber-700">{log.currElectricMeter}</span>
                 </td>
-                <td className="py-3 px-3 text-center">
+                <td className="py-3.5 px-4 text-center">
                   <span className="font-bold text-slate-800">{log.electricUnits} หน่วย</span>
-                  <span className="block text-2xs text-amber-600">฿{log.electricAmount}</span>
+                  <span className="block text-xs text-amber-600">฿{log.electricAmount}</span>
                 </td>
-                <td className="py-3 px-3 text-center text-2xs text-slate-500">
+                <td className="py-3.5 px-4 text-center text-xs text-slate-500">
                   {log.recordedAt || "-"}
                 </td>
               </tr>

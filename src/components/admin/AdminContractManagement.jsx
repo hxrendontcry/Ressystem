@@ -188,61 +188,61 @@ export const AdminContractManagement = () => {
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
-              <th className="py-3 px-3 font-semibold">เลขที่สัญญา</th>
-              <th className="py-3 px-3 font-semibold">ชื่อผู้เช่า</th>
-              <th className="py-3 px-3 font-semibold text-center">เลขห้อง</th>
-              <th className="py-3 px-3 font-semibold">วันเริ่ม - สิ้นสุด</th>
-              <th className="py-3 px-3 font-semibold">วันที่ยืนยันสัญญา</th>
-              <th className="py-3 px-3 font-semibold">สถานะยืนยัน</th>
-              <th className="py-3 px-3 font-semibold text-center">ส่งสัญญา (1.3.2.8)</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">เลขที่สัญญา</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">ชื่อผู้เช่า</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">เลขห้อง</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">วันเริ่ม - สิ้นสุด</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">วันที่ยืนยันสัญญา</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">สถานะยืนยัน</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">ส่งสัญญา (1.3.2.8)</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
             {contracts.map((c) => (
               <tr key={c.contractNumber} className="hover:bg-slate-50/80 transition-colors">
-                <td className="py-3 px-3 font-mono font-bold text-sky-900">
+                <td className="py-3.5 px-4 font-mono font-bold text-sky-900 whitespace-nowrap">
                   {c.contractNumber}
                 </td>
-                <td className="py-3 px-3 font-medium text-slate-800">{c.tenantName}</td>
-                <td className="py-3 px-3 text-center">
-                  <span className="px-2 py-0.5 rounded-md bg-sky-50 text-sky-700 font-bold text-xs border border-sky-200">
-                    {c.roomNumber}
+                <td className="py-3.5 px-4 font-medium text-slate-800 whitespace-nowrap">{c.tenantName}</td>
+                <td className="py-3.5 px-3 text-center whitespace-nowrap">
+                  <span className="px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 font-bold text-xs border border-sky-200 inline-block">
+                    ห้อง {c.roomNumber}
                   </span>
                 </td>
-                <td className="py-3 px-3 text-2xs">
+                <td className="py-3.5 px-4 whitespace-nowrap text-xs">
                   {c.startDate} ถึง {c.endDate}
                 </td>
-                <td className="py-3 px-3 text-2xs text-slate-500">
+                <td className="py-3.5 px-4 text-xs text-slate-500 whitespace-nowrap">
                   {c.confirmedAt || "ยังไม่ยืนยัน"}
                 </td>
-                <td className="py-3 px-3">
+                <td className="py-3.5 px-4 text-center whitespace-nowrap">
                   {c.confirmedByTenant ? (
-                    <span className="inline-flex items-center gap-1 text-2xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      <CheckCircle className="w-3 h-3" />
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap">
+                      <CheckCircle className="w-3.5 h-3.5" />
                       <span>ยืนยันแล้ว</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-2xs font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                      <Clock className="w-3 h-3" />
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 whitespace-nowrap">
+                      <Clock className="w-3.5 h-3.5" />
                       <span>รอยืนยัน</span>
                     </span>
                   )}
                 </td>
-                <td className="py-3 px-3 text-center">
-                  <div className="flex items-center justify-center gap-1.5">
+                <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                  <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => handleSendContract(c, "email")}
                       title="ส่งสัญญาทาง Email"
-                      className="p-1.5 rounded-lg bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100"
+                      className="p-1.5 rounded-lg bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100 inline-flex items-center justify-center"
                     >
-                      <Mail className="w-3.5 h-3.5" />
+                      <Mail className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleSendContract(c, "line")}
                       title="ส่งสัญญาผ่าน LINE OA"
-                      className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
+                      className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 inline-flex items-center justify-center"
                     >
-                      <MessageCircle className="w-3.5 h-3.5" />
+                      <MessageCircle className="w-4 h-4" />
                     </button>
                   </div>
                 </td>

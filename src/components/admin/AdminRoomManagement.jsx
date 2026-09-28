@@ -134,42 +134,42 @@ export const AdminRoomManagement = () => {
       <div className="bg-white rounded-2xl border border-sky-100 p-6 shadow-xs overflow-x-auto">
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
-              <th className="py-3 px-3 font-semibold">เลขห้อง</th>
-              <th className="py-3 px-3 font-semibold">ชั้น</th>
-              <th className="py-3 px-3 font-semibold">ประเภทห้อง</th>
-              <th className="py-3 px-3 font-semibold">ขนาด (ตร.ม.)</th>
-              <th className="py-3 px-3 font-semibold">ค่าเช่า/เดือน</th>
-              <th className="py-3 px-3 font-semibold">สิ่งอำนวยความสะดวก</th>
-              <th className="py-3 px-3 font-semibold">สถานะ</th>
-              <th className="py-3 px-3 font-semibold text-center">จัดการ</th>
+            <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 whitespace-nowrap text-xs">
+              <th className="py-3.5 px-4 font-semibold">เลขห้อง</th>
+              <th className="py-3.5 px-4 font-semibold">ชั้น</th>
+              <th className="py-3.5 px-4 font-semibold">ประเภทห้อง</th>
+              <th className="py-3.5 px-4 font-semibold">ขนาด (ตร.ม.)</th>
+              <th className="py-3.5 px-4 font-semibold">ค่าเช่า/เดือน</th>
+              <th className="py-3.5 px-4 font-semibold min-w-[200px]">สิ่งอำนวยความสะดวก</th>
+              <th className="py-3.5 px-4 font-semibold">สถานะ</th>
+              <th className="py-3.5 px-4 font-semibold text-center">จัดการ</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
             {rooms.map((room) => (
               <tr key={room.id} className="hover:bg-slate-50/80 transition-colors">
-                <td className="py-3 px-3 font-bold text-sky-900">
+                <td className="py-3.5 px-4 font-bold text-sky-900 whitespace-nowrap">
                   ห้อง {room.roomNumber}
                 </td>
-                <td className="py-3 px-3 text-slate-600">ชั้น {room.floor || 1}</td>
-                <td className="py-3 px-3">{room.type}</td>
-                <td className="py-3 px-3">{room.size} ตร.ม.</td>
-                <td className="py-3 px-3 font-semibold text-slate-800">
+                <td className="py-3.5 px-4 text-slate-600 whitespace-nowrap">ชั้น {room.floor || 1}</td>
+                <td className="py-3.5 px-4 whitespace-nowrap">{room.type}</td>
+                <td className="py-3.5 px-4 whitespace-nowrap">{room.size} ตร.ม.</td>
+                <td className="py-3.5 px-4 font-semibold text-slate-800 whitespace-nowrap">
                   ฿{room.price.toLocaleString()}
                 </td>
-                <td className="py-3 px-3 text-2xs text-slate-500 max-w-xs truncate">
+                <td className="py-3.5 px-4 text-xs text-slate-600 max-w-xs">
                   {room.amenities?.join(", ")}
                 </td>
-                <td className="py-3 px-3">
+                <td className="py-3.5 px-4 whitespace-nowrap">
                   <span
-                    className={`text-2xs font-semibold px-2.5 py-1 rounded-full border ${getStatusBadge(
+                    className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border whitespace-nowrap ${getStatusBadge(
                       room.status
                     )}`}
                   >
                     {room.statusLabel}
                   </span>
                 </td>
-                <td className="py-3 px-3 text-center">
+                <td className="py-3.5 px-4 text-center whitespace-nowrap">
                   <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => openEditModal(room)}

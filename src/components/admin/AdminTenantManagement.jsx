@@ -119,14 +119,14 @@ export const AdminTenantManagement = () => {
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
-              <th className="py-3 px-3 font-semibold">ชื่อ – สกุล</th>
-              <th className="py-3 px-3 font-semibold text-center">ห้องพัก</th>
-              <th className="py-3 px-3 font-semibold">เบอร์โทรศัพท์</th>
-              <th className="py-3 px-3 font-semibold">อีเมล (E-mail)</th>
-              <th className="py-3 px-3 font-semibold">ระยะเวลาสัญญาเช่า</th>
-              <th className="py-3 px-3 font-semibold">เอกสาร (≤ 3)</th>
-              <th className="py-3 px-3 font-semibold text-center">คำเชิญเปิดบัญชี</th>
-              <th className="py-3 px-3 font-semibold text-center">แก้ไข</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">ชื่อ – สกุล</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">ห้องพัก</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">เบอร์โทรศัพท์</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">อีเมล (E-mail)</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">ระยะเวลาสัญญาเช่า</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">เอกสาร (≤ 3)</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">คำเชิญเปิดบัญชี</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">แก้ไข</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -134,26 +134,26 @@ export const AdminTenantManagement = () => {
               const contract = contracts.find((c) => c.tenantId === tenant.id);
               return (
                 <tr key={tenant.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3 px-3">
+                  <td className="py-3.5 px-4 whitespace-nowrap">
                     <span className="font-semibold text-slate-800 block">{tenant.name}</span>
-                    <span className="text-2xs text-slate-400 font-mono">
+                    <span className="text-2xs text-slate-400 font-mono block mt-0.5">
                       บัตร: {tenant.idCard || "-"}
                     </span>
                   </td>
-                  <td className="py-3 px-3 text-center">
-                    <span className="px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 border border-sky-200 font-bold text-xs">
-                      {tenant.assignedRoom || "ยังไม่ผูก"}
+                  <td className="py-3.5 px-3 text-center whitespace-nowrap">
+                    <span className="px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 border border-sky-200 font-bold text-xs inline-block">
+                      ห้อง {tenant.assignedRoom || "ยังไม่ผูก"}
                     </span>
                   </td>
-                  <td className="py-3 px-3">{tenant.phone}</td>
-                  <td className="py-3 px-3 text-slate-600">{tenant.email}</td>
-                  <td className="py-3 px-3 text-2xs">
+                  <td className="py-3.5 px-4 whitespace-nowrap font-mono text-slate-700">{tenant.phone}</td>
+                  <td className="py-3.5 px-4 whitespace-nowrap text-slate-600">{tenant.email}</td>
+                  <td className="py-3.5 px-4 whitespace-nowrap text-xs">
                     {contract ? (
                       <div>
-                        <span className="font-medium text-slate-800">
+                        <span className="font-medium text-slate-800 block">
                           {contract.startDate} ถึง {contract.endDate}
                         </span>
-                        <span className="text-emerald-700 block font-semibold">
+                        <span className="text-sky-700 font-semibold text-2xs block">
                           สัญญา {contract.contractNumber}
                         </span>
                       </div>
@@ -161,35 +161,35 @@ export const AdminTenantManagement = () => {
                       <span className="text-slate-400">ยังไม่มีสัญญา</span>
                     )}
                   </td>
-                  <td className="py-3 px-3">
-                    <div className="flex items-center gap-1 text-slate-600">
+                  <td className="py-3.5 px-3 text-center whitespace-nowrap">
+                    <div className="inline-flex items-center gap-1 text-slate-600 bg-slate-50 px-2 py-1 rounded-md border border-slate-200">
                       <Paperclip className="w-3.5 h-3.5 text-sky-600" />
-                      <span>{tenant.documents?.length || 0} ไฟล์</span>
+                      <span className="text-xs">{tenant.documents?.length || 0} ไฟล์</span>
                     </div>
                   </td>
-                  <td className="py-3 px-3 text-center">
+                  <td className="py-3.5 px-4 text-center whitespace-nowrap">
                     {tenant.accountActivated ? (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-2xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        <CheckCircle className="w-3 h-3" />
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <CheckCircle className="w-3.5 h-3.5" />
                         <span>เปิดใช้งานแล้ว</span>
                       </span>
                     ) : (
                       <button
                         onClick={() => adminSendInvitation(tenant.id)}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-2xs font-semibold bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100"
                         title="ส่งลิงก์ตั้งรหัสผ่านเข้า Email"
                       >
-                        <Send className="w-3 h-3" />
+                        <Send className="w-3.5 h-3.5" />
                         <span>ส่งคำเชิญ</span>
                       </button>
                     )}
                   </td>
-                  <td className="py-3 px-3 text-center">
+                  <td className="py-3.5 px-3 text-center whitespace-nowrap">
                     <button
                       onClick={() => openEditModal(tenant)}
-                      className="p-1.5 rounded-lg text-sky-600 hover:bg-sky-50 border border-sky-200"
+                      className="p-1.5 rounded-lg text-sky-600 hover:bg-sky-50 border border-sky-200 inline-flex items-center justify-center"
                     >
-                      <Edit2 className="w-3.5 h-3.5" />
+                      <Edit2 className="w-4 h-4" />
                     </button>
                   </td>
                 </tr>

@@ -73,32 +73,32 @@ export const AdminDepositManagement = () => {
       <div className="bg-white rounded-2xl border border-sky-100 p-6 shadow-xs overflow-x-auto">
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
-              <th className="py-3 px-3 font-semibold">ผู้เช่า</th>
-              <th className="py-3 px-3 font-semibold text-center">ห้อง</th>
-              <th className="py-3 px-3 font-semibold text-right">เงินประกันตั้งต้น</th>
-              <th className="py-3 px-3 font-semibold">รายละเอียดค่าเสียหายที่หัก</th>
-              <th className="py-3 px-3 font-semibold text-right">ยอดที่ถูกหัก</th>
-              <th className="py-3 px-3 font-semibold text-right">ยอดคืนสุทธิ</th>
-              <th className="py-3 px-3 font-semibold">วันที่คืนเงินประกัน</th>
-              <th className="py-3 px-3 font-semibold">สถานะการคืน</th>
+            <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 whitespace-nowrap text-xs">
+              <th className="py-3.5 px-4 font-semibold">ผู้เช่า</th>
+              <th className="py-3.5 px-4 font-semibold text-center">ห้อง</th>
+              <th className="py-3.5 px-4 font-semibold text-right">เงินประกันตั้งต้น</th>
+              <th className="py-3.5 px-4 font-semibold min-w-[200px]">รายละเอียดค่าเสียหายที่หัก</th>
+              <th className="py-3.5 px-4 font-semibold text-right">ยอดที่ถูกหัก</th>
+              <th className="py-3.5 px-4 font-semibold text-right">ยอดคืนสุทธิ</th>
+              <th className="py-3.5 px-4 font-semibold">วันที่คืนเงินประกัน</th>
+              <th className="py-3.5 px-4 font-semibold">สถานะการคืน</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
             {depositRefunds.map((ref) => (
               <tr key={ref.id} className="hover:bg-slate-50/80 transition-colors">
-                <td className="py-3 px-3 font-medium text-slate-800">{ref.tenantName}</td>
-                <td className="py-3 px-3 text-center">
-                  <span className="font-bold text-xs bg-sky-50 text-sky-700 px-2 py-0.5 rounded border border-sky-200">
+                <td className="py-3.5 px-4 font-medium text-slate-800 whitespace-nowrap">{ref.tenantName}</td>
+                <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                  <span className="font-bold text-xs bg-sky-50 text-sky-700 px-2.5 py-1 rounded-md border border-sky-200">
                     {ref.roomNumber}
                   </span>
                 </td>
-                <td className="py-3 px-3 text-right">
+                <td className="py-3.5 px-4 text-right whitespace-nowrap font-medium">
                   ฿{ref.originalDeposit?.toLocaleString()}
                 </td>
-                <td className="py-3 px-3 text-2xs text-slate-600">
+                <td className="py-3.5 px-4 text-xs text-slate-600">
                   {ref.deductions?.length > 0 ? (
-                    <ul className="list-disc list-inside">
+                    <ul className="list-disc list-inside space-y-0.5">
                       {ref.deductions.map((d, i) => (
                         <li key={i}>
                           {d.item} (฿{d.amount.toLocaleString()})
@@ -109,16 +109,16 @@ export const AdminDepositManagement = () => {
                     <span className="text-slate-400">ไม่มีรายการหัก</span>
                   )}
                 </td>
-                <td className="py-3 px-3 text-right font-semibold text-rose-600">
+                <td className="py-3.5 px-4 text-right font-semibold text-rose-600 whitespace-nowrap">
                   -฿{ref.totalDeducted?.toLocaleString()}
                 </td>
-                <td className="py-3 px-3 text-right font-bold text-sky-800">
+                <td className="py-3.5 px-4 text-right font-bold text-sky-800 whitespace-nowrap">
                   ฿{ref.netRefund?.toLocaleString()}
                 </td>
-                <td className="py-3 px-3 text-2xs text-slate-600">{ref.refundDate}</td>
-                <td className="py-3 px-3">
+                <td className="py-3.5 px-4 text-xs text-slate-600 whitespace-nowrap">{ref.refundDate}</td>
+                <td className="py-3.5 px-4 whitespace-nowrap">
                   <span
-                    className={`text-2xs font-semibold px-2.5 py-1 rounded-full border ${
+                    className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full border whitespace-nowrap ${
                       ref.status === "refunded"
                         ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                         : ref.status === "pending"

@@ -69,48 +69,48 @@ export const AdminPaymentHistory = () => {
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
-              <th className="py-3 px-3 font-semibold">เลขที่ใบแจ้งหนี้</th>
-              <th className="py-3 px-3 font-semibold">เลขที่ใบเสร็จ</th>
-              <th className="py-3 px-3 font-semibold">ชื่อผู้เช่า</th>
-              <th className="py-3 px-3 font-semibold text-center">ห้อง</th>
-              <th className="py-3 px-3 font-semibold">เดือน/ปี</th>
-              <th className="py-3 px-3 font-semibold text-right">ยอดที่เรียกเก็บ</th>
-              <th className="py-3 px-3 font-semibold text-right">ยอดที่ชำระ</th>
-              <th className="py-3 px-3 font-semibold">วันที่ชำระเงิน</th>
-              <th className="py-3 px-3 font-semibold">สถานะการชำระเงิน</th>
-              <th className="py-3 px-3 font-semibold text-center">เอกสาร</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">เลขที่ใบแจ้งหนี้</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">เลขที่ใบเสร็จ</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">ชื่อผู้เช่า</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">ห้อง</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">เดือน/ปี</th>
+              <th className="py-3.5 px-4 font-semibold text-right whitespace-nowrap">ยอดที่เรียกเก็บ</th>
+              <th className="py-3.5 px-4 font-semibold text-right whitespace-nowrap">ยอดที่ชำระ</th>
+              <th className="py-3.5 px-4 font-semibold whitespace-nowrap">วันที่ชำระเงิน</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">สถานะการชำระเงิน</th>
+              <th className="py-3.5 px-3 font-semibold text-center whitespace-nowrap">เอกสาร</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
             {filteredInvoices.map((inv) => (
               <tr key={inv.invoiceNumber} className="hover:bg-slate-50/80 transition-colors">
-                <td className="py-3 px-3 font-mono font-semibold text-sky-900">
+                <td className="py-3.5 px-4 font-mono font-bold text-sky-900 whitespace-nowrap">
                   {inv.invoiceNumber}
                 </td>
-                <td className="py-3 px-3 font-mono text-2xs text-slate-500">
+                <td className="py-3.5 px-4 font-mono text-xs text-slate-500 whitespace-nowrap">
                   {inv.receipt?.receiptNumber || "-"}
                 </td>
-                <td className="py-3 px-3 font-medium text-slate-800">{inv.tenantName}</td>
-                <td className="py-3 px-3 text-center">
-                  <span className="font-bold text-xs bg-sky-50 text-sky-700 px-2 py-0.5 rounded border border-sky-200">
-                    {inv.roomNumber}
+                <td className="py-3.5 px-4 font-medium text-slate-800 whitespace-nowrap">{inv.tenantName}</td>
+                <td className="py-3.5 px-3 text-center whitespace-nowrap">
+                  <span className="font-bold text-xs bg-sky-50 text-sky-700 px-2.5 py-1 rounded-lg border border-sky-200 inline-block">
+                    ห้อง {inv.roomNumber}
                   </span>
                 </td>
-                <td className="py-3 px-3">{inv.billingMonthYear}</td>
-                <td className="py-3 px-3 text-right font-medium">
+                <td className="py-3.5 px-4 whitespace-nowrap">{inv.billingMonthYear}</td>
+                <td className="py-3.5 px-4 text-right font-medium whitespace-nowrap">
                   ฿{inv.netTotal.toLocaleString()}
                 </td>
-                <td className="py-3 px-3 text-right font-bold text-emerald-700">
+                <td className="py-3.5 px-4 text-right font-bold text-emerald-700 whitespace-nowrap">
                   {inv.status === "paid"
                     ? `฿${(inv.receipt?.paidAmount || inv.netTotal).toLocaleString()}`
                     : "-"}
                 </td>
-                <td className="py-3 px-3 text-2xs text-slate-600">
+                <td className="py-3.5 px-4 text-xs text-slate-600 whitespace-nowrap">
                   {inv.receipt?.paidDate || inv.paymentDetails?.transferDateTime || "-"}
                 </td>
-                <td className="py-3 px-3">
+                <td className="py-3.5 px-4 text-center whitespace-nowrap">
                   <span
-                    className={`text-2xs font-semibold px-2.5 py-1 rounded-full border ${
+                    className={`text-xs font-semibold px-3 py-1 rounded-full border whitespace-nowrap ${
                       inv.status === "paid"
                         ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                         : inv.status === "under_review"
@@ -126,14 +126,14 @@ export const AdminPaymentHistory = () => {
                     {inv.status === "pending_payment" && "รอชำระ"}
                   </span>
                 </td>
-                <td className="py-3 px-3 text-center">
+                <td className="py-3.5 px-3 text-center whitespace-nowrap">
                   {inv.status === "paid" ? (
                     <button
                       onClick={() => handleDownloadPdf(inv)}
                       title="ดาวน์โหลดใบเสร็จรับเงิน PDF"
-                      className="p-1.5 rounded-lg bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100"
+                      className="p-1.5 rounded-lg bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100 inline-flex items-center justify-center"
                     >
-                      <Download className="w-3.5 h-3.5" />
+                      <Download className="w-4 h-4" />
                     </button>
                   ) : (
                     <span className="text-slate-300">-</span>
