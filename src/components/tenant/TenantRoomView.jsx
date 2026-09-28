@@ -1,5 +1,5 @@
 // src/components/tenant/TenantRoomView.jsx
-import React, { useState } from "react";
+import React from "react";
 import {
   Bed,
   Wind,
@@ -12,18 +12,13 @@ import {
   Wifi,
   SunMedium,
   Check,
-  Maximize2,
-  Calendar,
-  CreditCard,
   Droplet,
   Zap,
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
-import { Modal } from "../common/Modal";
 
 export const TenantRoomView = () => {
   const { currentRoom, currentTenant, utilityRates } = useApp();
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   if (!currentRoom) {
     return (
@@ -107,37 +102,7 @@ export const TenantRoomView = () => {
         </div>
       </div>
 
-      {/* Room Photo Gallery (Not exceeding 5 photos) */}
-      <div className="bg-white rounded-2xl border border-sky-100 p-6 shadow-xs">
-        <div className="flex items-center justify-between mb-4">
-          <h4 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
-            <span>รูปภาพห้องพัก</span>
-            <span className="text-xs text-slate-400 font-normal">({currentRoom.photos.length}/5 รูป)</span>
-          </h4>
-          <span className="text-xs text-sky-600">คลิกที่รูปเพื่อขยาย</span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-          {currentRoom.photos.map((photoUrl, idx) => (
-            <div
-              key={idx}
-              onClick={() => setSelectedPhoto(photoUrl)}
-              className="group relative aspect-4/3 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 cursor-pointer shadow-2xs hover:shadow-md transition-all"
-            >
-              <img
-                src={photoUrl}
-                alt={`รูปห้อง ${currentRoom.roomNumber} รูปที่ ${idx + 1}`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-sky-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Maximize2 className="w-5 h-5 text-white drop-shadow-md" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Amenities & Furniture List */}
+      {/* Amenities & Furniture List (รูปห้องตัดออกตามต้องการ) */}
       <div className="bg-white rounded-2xl border border-sky-100 p-6 shadow-xs">
         <h4 className="text-sm font-semibold text-slate-800 mb-4">
           สิ่งอำนวยความสะดวกและเฟอร์นิเจอร์ภายในห้องพัก
@@ -156,22 +121,6 @@ export const TenantRoomView = () => {
           ))}
         </div>
       </div>
-
-      {/* Full Photo Modal */}
-      <Modal
-        isOpen={!!selectedPhoto}
-        onClose={() => setSelectedPhoto(null)}
-        title={`รูปภาพห้อง ${currentRoom.roomNumber}`}
-        maxWidth="max-w-3xl"
-      >
-        <div className="p-2">
-          <img
-            src={selectedPhoto}
-            alt="รูปห้องขยาย"
-            className="w-full h-auto max-h-[70vh] object-contain rounded-xl"
-          />
-        </div>
-      </Modal>
     </div>
   );
 };

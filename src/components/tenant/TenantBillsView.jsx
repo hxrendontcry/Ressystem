@@ -8,13 +8,10 @@ import {
   CheckCircle,
   Clock,
   AlertCircle,
-  Eye,
-  Camera,
   Droplet,
   Zap,
   Wifi,
   BellRing,
-  Calendar,
   CreditCard,
   Building,
 } from "lucide-react";
@@ -24,13 +21,10 @@ import { Modal } from "../common/Modal";
 export const TenantBillsView = () => {
   const { currentInvoices, submitSlipPayment, showToast, currentTenant } = useApp();
 
-  // Selected invoice to view details or pay
   const [selectedInvoice, setSelectedInvoice] = useState(
     currentInvoices.find((i) => i.status !== "paid") || currentInvoices[0]
   );
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
-  const [isMeterPhotoModalOpen, setIsMeterPhotoModalOpen] = useState(false);
-  const [activeMeterPhotoType, setActiveMeterPhotoType] = useState("water");
 
   // Payment form state
   const [transferAmount, setTransferAmount] = useState("");
@@ -38,7 +32,6 @@ export const TenantBillsView = () => {
   const [transferTime, setTransferTime] = useState("");
   const [sourceAccountName, setSourceAccountName] = useState(currentTenant?.name || "");
   const [sourceBank, setSourceBank] = useState("กสิกรไทย (KBANK)");
-  const [slipFile, setSlipFile] = useState(null);
 
   if (!selectedInvoice) {
     return (
@@ -85,7 +78,7 @@ export const TenantBillsView = () => {
 
   return (
     <div className="space-y-6">
-      {/* 1.3.1.16 LINE Notification reminder banner */}
+      {/* LINE Notification reminder banner */}
       <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
@@ -107,7 +100,7 @@ export const TenantBillsView = () => {
 
       {/* Main Grid: Invoice Selector List & Current Invoice Details */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: List of Invoices & History (1.3.1.15) */}
+        {/* Left Column: List of Invoices & History */}
         <div className="lg:col-span-1 bg-white rounded-2xl border border-sky-100 p-5 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-slate-800 text-sm">รายการใบแจ้งหนี้ / ประวัติ</h3>
@@ -164,7 +157,7 @@ export const TenantBillsView = () => {
           </div>
         </div>
 
-        {/* Right Column: Detailed Invoice Breakdown (1.3.1.13) */}
+        {/* Right Column: Detailed Invoice Breakdown */}
         <div className="lg:col-span-2 bg-white rounded-2xl border border-sky-100 p-6 shadow-xs space-y-6">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
@@ -206,7 +199,7 @@ export const TenantBillsView = () => {
             </div>
           </div>
 
-          {/* Breakdown Table (1.3.1.13) */}
+          {/* Breakdown Table */}
           <div className="overflow-x-auto">
             <table className="w-full text-xs sm:text-sm text-left">
               <thead>
@@ -236,17 +229,6 @@ export const TenantBillsView = () => {
                     <div className="flex items-center gap-1.5">
                       <Droplet className="w-3.5 h-3.5 text-sky-500" />
                       <span className="font-medium">ค่าน้ำประปา (18 บาท/หน่วย)</span>
-                      <button
-                        onClick={() => {
-                          setActiveMeterPhotoType("water");
-                          setIsMeterPhotoModalOpen(true);
-                        }}
-                        title="ดูรูปถ่ายมิเตอร์น้ำ"
-                        className="text-2xs text-sky-600 bg-sky-50 hover:bg-sky-100 px-1.5 py-0.5 rounded border border-sky-200 flex items-center gap-0.5"
-                      >
-                        <Camera className="w-3 h-3" />
-                        <span>รูปมิเตอร์</span>
-                      </button>
                     </div>
                   </td>
                   <td className="py-3 px-3 text-center">{selectedInvoice.prevWater}</td>
@@ -267,17 +249,6 @@ export const TenantBillsView = () => {
                     <div className="flex items-center gap-1.5">
                       <Zap className="w-3.5 h-3.5 text-amber-500" />
                       <span className="font-medium">ค่าไฟฟ้า (8 บาท/หน่วย)</span>
-                      <button
-                        onClick={() => {
-                          setActiveMeterPhotoType("electric");
-                          setIsMeterPhotoModalOpen(true);
-                        }}
-                        title="ดูรูปถ่ายมิเตอร์ไฟฟ้า"
-                        className="text-2xs text-amber-700 bg-amber-50 hover:bg-amber-100 px-1.5 py-0.5 rounded border border-amber-200 flex items-center gap-0.5"
-                      >
-                        <Camera className="w-3 h-3" />
-                        <span>รูปมิเตอร์</span>
-                      </button>
                     </div>
                   </td>
                   <td className="py-3 px-3 text-center">{selectedInvoice.prevElectric}</td>
@@ -345,7 +316,7 @@ export const TenantBillsView = () => {
             </table>
           </div>
 
-          {/* Paid details / Slip preview if already submitted */}
+          {/* Paid details if already submitted */}
           {selectedInvoice.paymentDetails && (
             <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
               <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -386,7 +357,7 @@ export const TenantBillsView = () => {
         </div>
       </div>
 
-      {/* Modal: 1.3.1.14 Payment & Slip Upload Modal */}
+      {/* Modal: Payment & Slip Upload Modal */}
       <Modal
         isOpen={isPayModalOpen}
         onClose={() => setIsPayModalOpen(false)}
@@ -400,7 +371,6 @@ export const TenantBillsView = () => {
               สแกน QR Code PromptPay แบบฝังยอดสุทธิ
             </span>
             <div className="my-3 inline-block p-3 bg-white rounded-xl shadow-xs border border-slate-200">
-              {/* Simulated QR Code with Logo */}
               <div className="w-40 h-40 bg-slate-900 mx-auto rounded-lg flex flex-col items-center justify-center text-white p-2 relative">
                 <QrCode className="w-28 h-28 text-white" />
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -529,53 +499,6 @@ export const TenantBillsView = () => {
             </button>
           </div>
         </form>
-      </Modal>
-
-      {/* Modal: View Meter Photos (1.3.1.13) */}
-      <Modal
-        isOpen={isMeterPhotoModalOpen}
-        onClose={() => setIsMeterPhotoModalOpen(false)}
-        title={`รูปถ่ายมิเตอร์ประจำเดือน - ${activeMeterPhotoType === "water" ? "มิเตอร์น้ำ" : "มิเตอร์ไฟฟ้า"}`}
-        maxWidth="max-w-md"
-      >
-        <div className="space-y-3">
-          <div className="flex items-center justify-center gap-2 pb-2">
-            <button
-              onClick={() => setActiveMeterPhotoType("water")}
-              className={`px-3 py-1 text-xs rounded-lg font-medium transition-colors ${
-                activeMeterPhotoType === "water"
-                  ? "bg-sky-600 text-white"
-                  : "bg-slate-100 text-slate-700"
-              }`}
-            >
-              มิเตอร์น้ำ ({selectedInvoice.currWater} หน่วย)
-            </button>
-            <button
-              onClick={() => setActiveMeterPhotoType("electric")}
-              className={`px-3 py-1 text-xs rounded-lg font-medium transition-colors ${
-                activeMeterPhotoType === "electric"
-                  ? "bg-amber-600 text-white"
-                  : "bg-slate-100 text-slate-700"
-              }`}
-            >
-              มิเตอร์ไฟฟ้า ({selectedInvoice.currElectric} หน่วย)
-            </button>
-          </div>
-          <div className="rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
-            <img
-              src={
-                activeMeterPhotoType === "water"
-                  ? selectedInvoice.meterPhotos.water
-                  : selectedInvoice.meterPhotos.electric
-              }
-              alt="รูปถ่ายมิเตอร์"
-              className="w-full h-64 object-cover"
-            />
-          </div>
-          <p className="text-2xs text-center text-slate-500">
-            ภาพถ่ายจริงจากกล้องเจ้าหน้าที่ผู้บันทึกมิเตอร์ประจำงวด {selectedInvoice.billingMonthYear}
-          </p>
-        </div>
       </Modal>
     </div>
   );

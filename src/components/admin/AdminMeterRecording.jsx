@@ -4,11 +4,8 @@ import {
   Gauge,
   Droplet,
   Zap,
-  Camera,
-  Upload,
   PlusCircle,
   History,
-  CheckCircle,
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import { initialMeters } from "../../data/mockData";
@@ -20,7 +17,7 @@ export const AdminMeterRecording = () => {
   const [meterLogs, setMeterLogs] = useState(initialMeters);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Form states (1.3.2.13)
+  // Form states
   const [billingMonthYear, setBillingMonthYear] = useState("กันยายน 2569");
   const [roomNumber, setRoomNumber] = useState("101");
   const [prevWater, setPrevWater] = useState(142);
@@ -47,12 +44,10 @@ export const AdminMeterRecording = () => {
       currWaterMeter: Number(currWater),
       waterUnits,
       waterAmount,
-      waterPhoto: "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=400&auto=format&fit=crop&q=80",
       prevElectricMeter: Number(prevElectric),
       currElectricMeter: Number(currElectric),
       electricUnits,
       electricAmount,
-      electricPhoto: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&auto=format&fit=crop&q=80",
       recordedAt: new Date().toLocaleString("th-TH"),
     };
 
@@ -70,7 +65,7 @@ export const AdminMeterRecording = () => {
             บันทึกมิเตอร์น้ำและไฟฟ้าประจำเดือน (Meter Reading & Log)
           </h3>
           <p className="text-xs text-slate-500 mt-1">
-            จดเลขมิเตอร์ ถ่ายภาพมิเตอร์น้ำ-ไฟเป็นหลักฐาน และคำนวณหน่วยที่ใช้อัตโนมัติ (1.3.2.13 - 1.3.2.14)
+            จดเลขมิเตอร์ คำนวณหน่วยที่ใช้อัตโนมัติ และดูประวัติการบันทึกย้อนหลัง
           </p>
         </div>
 
@@ -83,7 +78,7 @@ export const AdminMeterRecording = () => {
         </button>
       </div>
 
-      {/* 1.3.2.14 History Table */}
+      {/* History Table */}
       <div className="bg-white rounded-2xl border border-sky-100 p-6 shadow-xs overflow-x-auto">
         <h4 className="font-bold text-sm text-slate-800 mb-4 flex items-center gap-2">
           <History className="w-4 h-4 text-sky-600" />
@@ -95,11 +90,11 @@ export const AdminMeterRecording = () => {
             <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
               <th className="py-3 px-3 font-semibold">รอบเดือน/ปี</th>
               <th className="py-3 px-3 font-semibold text-center">ห้อง</th>
-              <th className="py-3 px-3 font-semibold text-center text-sky-700">มิเตอร์น้ำ (ก่อน-หลัง)</th>
+              <th className="py-3 px-3 font-semibold text-center text-sky-700">มิเตอร์น้ำ (ก่อน - หลัง)</th>
               <th className="py-3 px-3 font-semibold text-center text-sky-700">หน่วยน้ำ (ค่าน้ำ)</th>
-              <th className="py-3 px-3 font-semibold text-center text-amber-700">มิเตอร์ไฟ (ก่อน-หลัง)</th>
+              <th className="py-3 px-3 font-semibold text-center text-amber-700">มิเตอร์ไฟ (ก่อน - หลัง)</th>
               <th className="py-3 px-3 font-semibold text-center text-amber-700">หน่วยไฟ (ค่าไฟ)</th>
-              <th className="py-3 px-3 font-semibold text-center">รูปหลักฐาน</th>
+              <th className="py-3 px-3 font-semibold text-center">วันที่บันทึก</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -127,15 +122,8 @@ export const AdminMeterRecording = () => {
                   <span className="font-bold text-slate-800">{log.electricUnits} หน่วย</span>
                   <span className="block text-2xs text-amber-600">฿{log.electricAmount}</span>
                 </td>
-                <td className="py-3 px-3 text-center">
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="text-2xs px-1.5 py-0.5 bg-sky-50 text-sky-700 rounded border border-sky-200">
-                      น้ำ ✓
-                    </span>
-                    <span className="text-2xs px-1.5 py-0.5 bg-amber-50 text-amber-800 rounded border border-amber-200">
-                      ไฟ ✓
-                    </span>
-                  </div>
+                <td className="py-3 px-3 text-center text-2xs text-slate-500">
+                  {log.recordedAt || "-"}
                 </td>
               </tr>
             ))}
@@ -143,7 +131,7 @@ export const AdminMeterRecording = () => {
         </table>
       </div>
 
-      {/* Modal: 1.3.2.13 Record Monthly Meter */}
+      {/* Modal: Record Monthly Meter */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -183,7 +171,7 @@ export const AdminMeterRecording = () => {
           </div>
 
           {/* Water Meter Section */}
-          <div className="p-3 rounded-xl border border-sky-200 bg-sky-50/50 space-y-3">
+          <div className="p-3.5 rounded-xl border border-sky-200 bg-sky-50/50 space-y-2">
             <h5 className="text-xs font-bold text-sky-900 flex items-center gap-1.5">
               <Droplet className="w-3.5 h-3.5 text-sky-600" />
               <span>มิเตอร์น้ำประปา (อัตรา ฿{utilityRates.waterRate}/หน่วย)</span>
@@ -211,16 +199,10 @@ export const AdminMeterRecording = () => {
                 />
               </div>
             </div>
-            {/* Water Photo Upload */}
-            <div className="flex items-center gap-2 text-2xs text-slate-600 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer">
-              <Camera className="w-4 h-4 text-sky-600 shrink-0" />
-              <span>อัปโหลดรูปถ่ายมิเตอร์น้ำประจำเดือน (JPG/PNG)</span>
-              <span className="ml-auto text-sky-600 font-medium">เลือกไฟล์</span>
-            </div>
           </div>
 
           {/* Electricity Meter Section */}
-          <div className="p-3 rounded-xl border border-amber-200 bg-amber-50/50 space-y-3">
+          <div className="p-3.5 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
             <h5 className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-amber-600" />
               <span>มิเตอร์ไฟฟ้า (อัตรา ฿{utilityRates.electricityRate}/หน่วย)</span>
@@ -247,12 +229,6 @@ export const AdminMeterRecording = () => {
                   className="w-full px-3 py-1.5 bg-white rounded-lg text-xs border border-amber-400 font-bold"
                 />
               </div>
-            </div>
-            {/* Electric Photo Upload */}
-            <div className="flex items-center gap-2 text-2xs text-slate-600 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer">
-              <Camera className="w-4 h-4 text-amber-600 shrink-0" />
-              <span>อัปโหลดรูปถ่ายมิเตอร์ไฟฟ้าประจำเดือน (JPG/PNG)</span>
-              <span className="ml-auto text-amber-600 font-medium">เลือกไฟล์</span>
             </div>
           </div>
 

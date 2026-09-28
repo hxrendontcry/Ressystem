@@ -9,8 +9,6 @@ import {
   Clock,
   Wrench,
   DoorOpen,
-  Image,
-  Upload,
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 import { Modal } from "../common/Modal";
@@ -77,9 +75,7 @@ export const AdminRoomManagement = () => {
       statusLabel: statusLabels[status] || "ว่าง",
       floor: Number(floor),
       amenities: amenitiesText.split(",").map((s) => s.trim()).filter(Boolean),
-      photos: editingRoom?.photos || [
-        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&auto=format&fit=crop&q=80",
-      ],
+      photos: [],
       currentTenantId: editingRoom?.currentTenantId || null,
     };
 
@@ -121,7 +117,7 @@ export const AdminRoomManagement = () => {
             จัดการข้อมูลห้องพัก (Room Management)
           </h3>
           <p className="text-xs text-slate-500 mt-1">
-            เพิ่ม ลบ แก้ไข ข้อมูลสิ่งอำนวยความสะดวก ราคาค่าเช่า และรูปภาพห้องพัก
+            เพิ่ม ลบ แก้ไข ข้อมูลสิ่งอำนวยความสะดวก ราคาค่าเช่า และสถานะห้องพัก
           </p>
         </div>
 
@@ -140,10 +136,11 @@ export const AdminRoomManagement = () => {
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
               <th className="py-3 px-3 font-semibold">เลขห้อง</th>
+              <th className="py-3 px-3 font-semibold">ชั้น</th>
               <th className="py-3 px-3 font-semibold">ประเภทห้อง</th>
               <th className="py-3 px-3 font-semibold">ขนาด (ตร.ม.)</th>
               <th className="py-3 px-3 font-semibold">ค่าเช่า/เดือน</th>
-              <th className="py-3 px-3 font-semibold">รูปภาพ (≤ 5)</th>
+              <th className="py-3 px-3 font-semibold">สิ่งอำนวยความสะดวก</th>
               <th className="py-3 px-3 font-semibold">สถานะ</th>
               <th className="py-3 px-3 font-semibold text-center">จัดการ</th>
             </tr>
@@ -154,16 +151,14 @@ export const AdminRoomManagement = () => {
                 <td className="py-3 px-3 font-bold text-sky-900">
                   ห้อง {room.roomNumber}
                 </td>
+                <td className="py-3 px-3 text-slate-600">ชั้น {room.floor || 1}</td>
                 <td className="py-3 px-3">{room.type}</td>
                 <td className="py-3 px-3">{room.size} ตร.ม.</td>
                 <td className="py-3 px-3 font-semibold text-slate-800">
                   ฿{room.price.toLocaleString()}
                 </td>
-                <td className="py-3 px-3">
-                  <div className="flex items-center gap-1 text-slate-500">
-                    <Image className="w-3.5 h-3.5" />
-                    <span>{room.photos?.length || 0} รูป</span>
-                  </div>
+                <td className="py-3 px-3 text-2xs text-slate-500 max-w-xs truncate">
+                  {room.amenities?.join(", ")}
                 </td>
                 <td className="py-3 px-3">
                   <span
@@ -198,7 +193,7 @@ export const AdminRoomManagement = () => {
         </table>
       </div>
 
-      {/* Modal: Create/Edit Room (1.3.2.6) */}
+      {/* Modal: Create/Edit Room */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -283,23 +278,11 @@ export const AdminRoomManagement = () => {
               สิ่งอำนวยความสะดวก (คั่นด้วยเครื่องหมายจุลภาค ,)
             </label>
             <textarea
-              rows="2"
+              rows="3"
               value={amenitiesText}
               onChange={(e) => setAmenitiesText(e.target.value)}
               className="w-full px-3 py-2 bg-white rounded-lg text-xs border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-sky-500"
             />
-          </div>
-
-          {/* Photo Upload Simulation (Max 5 photos) */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
-              รูปภาพห้องพัก (ไม่เกิน 5 รูป)
-            </label>
-            <div className="p-3 border-2 border-dashed border-sky-300 rounded-xl bg-sky-50/40 text-center hover:bg-sky-50 transition-colors cursor-pointer">
-              <Upload className="w-5 h-5 text-sky-600 mx-auto mb-1" />
-              <p className="text-xs text-slate-700 font-medium">คลิกเพื่ออัปโหลดรูปภาพห้องพัก</p>
-              <span className="text-2xs text-slate-400">JPG, PNG ขนาดไม่เกิน 5 MB ต่อรูป</span>
-            </div>
           </div>
 
           <div className="flex justify-end gap-2 pt-2">
