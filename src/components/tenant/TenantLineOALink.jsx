@@ -7,7 +7,6 @@ import {
   Copy,
   Check,
   Smartphone,
-  HelpCircle,
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 
@@ -211,14 +210,6 @@ export const TenantLineOALink = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Quick Notice Box */}
-          <div className="mt-6 p-4 rounded-2xl bg-sky-50/60 border border-sky-200 flex items-start gap-3">
-            <HelpCircle className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-            <p className="text-2xs text-slate-600 leading-relaxed">
-              <span className="font-bold text-sky-900">คำแนะนำ:</span> หลังจากเพิ่มเพื่อนแล้ว คุณสามารถพิมพ์ข้อความสอบถาม แจ้งปัญหาห้องพัก หรือส่งหลักฐานสลิปโอนเงินผ่านห้องแชท LINE ได้ตลอดเวลา เจ้าหน้าที่นิติบุคคลจะได้รับข้อความและตอบกลับคุณผ่านแอป LINE โดยตรงครับ
-            </p>
           </div>
         </div>
       </div>
