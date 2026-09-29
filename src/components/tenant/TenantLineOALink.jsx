@@ -6,13 +6,10 @@ import {
   QrCode,
   Copy,
   Check,
-  ShieldCheck,
   Wrench,
   Receipt,
   Package,
-  Bell,
   Smartphone,
-  Info,
   CheckCircle2,
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
@@ -265,75 +262,6 @@ export const TenantLineOALink = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Rich Menu Preview */}
-      <div className="bg-white rounded-3xl border border-sky-100 p-6 shadow-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 mb-4 gap-2">
-          <div>
-            <h4 className="font-bold text-sm text-slate-800 flex items-center gap-2">
-              <Info className="w-4 h-4 text-emerald-600" />
-              <span>ตัวอย่างเมนูลัด (Rich Menu) ที่ผู้เช่าจะได้ใช้งานในแอป LINE</span>
-            </h4>
-            <p className="text-2xs text-slate-500 mt-0.5">
-              เมื่อคุณแอด LINE หอพัก ด้านล่างของห้องแชทจะมีปุ่มเมนูลัดให้กดใช้งานได้สะดวกทันที
-            </p>
-          </div>
-
-          <span className="text-2xs px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-semibold shrink-0">
-            ระบบเมนูอัตโนมัติ 6 ปุ่ม
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
-            <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 mx-auto flex items-center justify-center mb-2">
-              <Receipt className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-bold text-slate-800 block">ดูบิลค่าเช่า</span>
-            <span className="text-3xs text-slate-500 block mt-0.5">ค่าน้ำ ค่าไฟ</span>
-          </div>
-
-          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 mx-auto flex items-center justify-center mb-2">
-              <Wrench className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-bold text-slate-800 block">แจ้งซ่อมแซม</span>
-            <span className="text-3xs text-slate-500 block mt-0.5">เรียกช่างบริการ</span>
-          </div>
-
-          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center mb-2">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-bold text-slate-800 block">แจ้งชำระเงิน</span>
-            <span className="text-3xs text-slate-500 block mt-0.5">ส่งสลิปโอนเงิน</span>
-          </div>
-
-          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 mx-auto flex items-center justify-center mb-2">
-              <Package className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-bold text-slate-800 block">เช็กพัสดุ</span>
-            <span className="text-3xs text-slate-500 block mt-0.5">จดหมาย / พัสดุ</span>
-          </div>
-
-          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
-            <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 mx-auto flex items-center justify-center mb-2">
-              <Bell className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-bold text-slate-800 block">ประกาศหอพัก</span>
-            <span className="text-3xs text-slate-500 block mt-0.5">ข่าวด่วน / กฎ</span>
-          </div>
-
-          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 mx-auto flex items-center justify-center mb-2">
-              <MessageCircle className="w-5 h-5" />
-            </div>
-            <span className="text-xs font-bold text-slate-800 block">ติดต่อนิติ</span>
-            <span className="text-3xs text-slate-500 block mt-0.5">คุยกับผู้ดูแล</span>
           </div>
         </div>
       </div>
