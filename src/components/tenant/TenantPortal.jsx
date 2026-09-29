@@ -31,7 +31,7 @@ export const TenantPortal = () => {
     { id: "announcements", label: "ข่าวสาร / ประกาศ", icon: <Megaphone className="w-4 h-4" /> },
     { id: "deposit", label: "เงินประกัน", icon: <ShieldCheck className="w-4 h-4" /> },
     { id: "profile", label: "ข้อมูลส่วนตัว", icon: <User className="w-4 h-4" /> },
-    { id: "line", label: "LINE Official Account", icon: <MessageCircle className="w-4 h-4 text-emerald-600" /> },
+    { id: "line", label: "แอด LINE หอพัก", icon: <MessageCircle className="w-4 h-4 text-emerald-600" /> },
   ];
 
   return (

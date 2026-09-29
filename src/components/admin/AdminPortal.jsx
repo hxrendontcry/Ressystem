@@ -70,7 +70,7 @@ export const AdminPortal = () => {
     {
       groupTitle: "สื่อสาร & รายงาน",
       items: [
-        { id: "line-oa", label: "แชท LINE OA", icon: <MessageCircle className="w-4 h-4 text-emerald-600" /> },
+        { id: "line-oa", label: "จัดการ LINE OA", icon: <MessageCircle className="w-4 h-4 text-emerald-600" /> },
         { id: "reports", label: "ส่งออกรายงาน Excel/PDF", icon: <FileSpreadsheet className="w-4 h-4" /> },
       ],
     },

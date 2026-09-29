@@ -1,129 +1,341 @@
 // src/components/tenant/TenantLineOALink.jsx
 import React, { useState } from "react";
-import { MessageCircle, ExternalLink, Send, Bot, ShieldCheck, User } from "lucide-react";
+import {
+  MessageCircle,
+  ExternalLink,
+  QrCode,
+  Copy,
+  Check,
+  ShieldCheck,
+  Wrench,
+  Receipt,
+  Package,
+  Bell,
+  Smartphone,
+  Info,
+  CheckCircle2,
+} from "lucide-react";
 import { useApp } from "../../context/AppContext";
 
 export const TenantLineOALink = () => {
-  const { lineMessages, sendLineMessage, showToast, currentTenant } = useApp();
-  const [inputText, setInputText] = useState("");
+  const { currentTenant, showToast } = useApp();
+  const [copied, setCopied] = useState(false);
+  const [qrLoaded, setQrLoaded] = useState(true);
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
+  const lineId = "@suksabai_residence";
+  const lineAddFriendUrl = "https://line.me/R/ti/p/@suksabai_oa";
 
-    sendLineMessage(inputText);
-    setInputText("");
-
-    // Simulate auto bot response after 1s
-    setTimeout(() => {
-      showToast("ระบบอัตโนมัติ LINE OA ได้รับข้อความแล้ว", "success");
-    }, 800);
+  const handleCopyId = () => {
+    navigator.clipboard.writeText(lineId);
+    setCopied(true);
+    showToast("คัดลอก LINE ID เรียบร้อยแล้ว", "success");
+    setTimeout(() => setCopied(false), 2500);
   };
 
   return (
     <div className="space-y-6">
-      {/* Header & Direct Link Banner (1.3.1.19) */}
-      <div className="bg-emerald-600 rounded-2xl p-6 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="p-2 bg-white/20 rounded-xl">
-              <MessageCircle className="w-6 h-6" />
-            </span>
-            <h3 className="text-xl font-bold">LINE Official Account (LINE OA) ของหอพัก</h3>
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+        <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+        
+        <div className="relative z-10 max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-xs rounded-full text-2xs font-semibold mb-3 border border-white/20">
+            <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
+            <span>LINE Official Account • สุขสบาย เรสซิเดนซ์</span>
           </div>
-          <p className="text-xs text-emerald-100 mt-1">
-            กดปุ่มด้านล่างเพื่อเปิดแอปพลิเคชัน LINE หรือแชทกับผู้ดูแลหอพักผ่านระบบจำลองนี้ได้ทันที
+
+          <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            แอด LINE หอพักเพื่อพูดคุยในแอปพลิเคชัน LINE
+          </h3>
+          <p className="text-xs sm:text-sm text-emerald-100 mt-2 leading-relaxed">
+            สแกน QR Code หรือกดปุ่มเพิ่มเพื่อน เพื่อแชทกับผู้ดูแลหอพัก แจ้งซ่อมแซมด่วน และรับการแจ้งเตือนบิลค่าเช่าผ่านแอป LINE ได้สะดวกทุกที่ทุกเวลา
+          </p>
+        </div>
+      </div>
+
+      {/* Main Grid: QR Code & Connection Card */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column: QR Code & Quick Add */}
+        <div className="lg:col-span-5 bg-white rounded-3xl border border-sky-100 p-6 shadow-xs flex flex-col items-center text-center">
+          <div className="w-full flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                <MessageCircle className="w-4 h-4" />
+              </div>
+              <div className="text-left">
+                <h4 className="font-bold text-sm text-slate-800">สุขสบาย เรสซิเดนซ์</h4>
+                <span className="text-2xs text-emerald-600 font-medium">บัญชีทางการ (Verified Account)</span>
+              </div>
+            </div>
+            <span className="text-2xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
+              ออนไลน์ 24 ชม.
+            </span>
+          </div>
+
+          {/* QR Code Container */}
+          <div className="relative p-4 bg-slate-50 border-2 border-dashed border-emerald-200 rounded-2xl my-2">
+            <div className="w-52 h-52 bg-white rounded-xl shadow-xs border border-slate-200 flex items-center justify-center p-3 relative overflow-hidden">
+              {qrLoaded ? (
+                <img
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fline.me%2FR%2Fti%2Fp%2F%40suksabai_oa"
+                  alt="LINE OA QR Code"
+                  className="w-full h-full object-contain"
+                  onError={() => setQrLoaded(false)}
+                />
+              ) : (
+                <div className="w-full h-full bg-slate-900 rounded-lg flex flex-col items-center justify-center text-white p-3 relative">
+                  <QrCode className="w-36 h-36 text-white" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white shadow-md font-bold text-xs">
+                      LINE
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* LINE badge in center */}
+              {qrLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-9 h-9 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white shadow-md font-bold text-2xs">
+                    LINE
+                  </div>
+                </div>
+              )}
+            </div>
+            <span className="block text-2xs text-slate-500 font-medium mt-2">
+              สแกนด้วยกล้องมือถือ หรือแอป LINE
+            </span>
+          </div>
+
+          {/* LINE ID Box */}
+          <div className="w-full mt-3 p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl flex items-center justify-between">
+            <div className="text-left">
+              <span className="text-3xs text-emerald-800 uppercase font-bold tracking-wider block">
+                LINE Official ID
+              </span>
+              <span className="font-mono text-sm font-extrabold text-slate-800">
+                {lineId}
+              </span>
+            </div>
+            <button
+              onClick={handleCopyId}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                copied
+                  ? "bg-emerald-600 text-white"
+                  : "bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50 shadow-2xs"
+              }`}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5" />
+                  <span>คัดลอกแล้ว</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>คัดลอก ID</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Primary Action Button */}
+          <a
+            href={lineAddFriendUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-emerald-600 text-white rounded-2xl text-xs sm:text-sm font-bold shadow-md hover:bg-emerald-700 hover:shadow-lg transition-all"
+          >
+            <span>เปิดแอป LINE เพื่อเพิ่มเพื่อนทันที</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
+
+          <p className="text-3xs text-slate-400 mt-3">
+            * หากใช้งานบนโทรศัพท์มือถือ ปุ่มนี้จะเปิดแอปพลิเคชัน LINE ให้คุณโดยอัตโนมัติ
           </p>
         </div>
 
-        <a
-          href="https://line.me"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-emerald-700 rounded-xl text-xs sm:text-sm font-bold shadow-md hover:bg-emerald-50 transition-colors shrink-0"
-        >
-          <span>เปิดแชทใน LINE App</span>
-          <ExternalLink className="w-4 h-4" />
-        </a>
-      </div>
+        {/* Right Column: Connection Steps & Advantages */}
+        <div className="lg:col-span-7 space-y-6">
+          {/* 3 Steps Guide */}
+          <div className="bg-white rounded-3xl border border-sky-100 p-6 shadow-xs">
+            <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-4">
+              <Smartphone className="w-4 h-4 text-emerald-600" />
+              <span>3 ขั้นตอนง่ายๆ ในการเริ่มพูดคุยใน LINE</span>
+            </h4>
 
-      {/* Simulated LINE Web Chat Window */}
-      <div className="bg-white rounded-2xl border border-sky-100 shadow-xs overflow-hidden max-w-3xl mx-auto flex flex-col h-[520px]">
-        {/* Chat Header */}
-        <div className="bg-emerald-500 text-white px-5 py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-emerald-600 font-bold shadow-xs">
-              LINE
-            </div>
-            <div>
-              <h4 className="text-sm font-bold">สุขสบาย เรสซิเดนซ์ (Official OA)</h4>
-              <p className="text-2xs text-emerald-100">ตอบกลับโดย AI Chatbot และผู้ดูแลหอพัก</p>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">
+                  1
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-800">
+                    สแกน QR Code หรือค้นหา LINE ID
+                  </h5>
+                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
+                    เปิดแอป LINE บนมือถือของคุณ เลือกเมนู “เพิ่มเพื่อน” แล้วสแกนภาพ QR Code ทางด้านซ้าย หรือพิมพ์ค้นหาด้วยไอดี <span className="font-semibold text-emerald-700">{lineId}</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">
+                  2
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-800">
+                    กดปุ่ม "เพิ่มเพื่อน" (Add Friend)
+                  </h5>
+                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
+                    กดยืนยันเพิ่มเพื่อนกับบัญชีทางการ “สุขสบาย เรสซิเดนซ์” คุณจะได้รับข้อความต้อนรับและเมนูบริการอัตโนมัติ
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">
+                  3
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-800">
+                    ส่งข้อความแจ้งเลขห้องพักเพื่อเริ่มสนทนา
+                  </h5>
+                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
+                    พิมพ์ส่งข้อความ เช่น <span className="font-semibold text-slate-700">“สวัสดีครับ {currentTenant.name} ห้อง {currentTenant.assignedRoom}”</span> เพื่อให้เจ้าหน้าที่และระบบบันทึกการเชื่อมต่อบัญชี
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-          <span className="text-2xs px-2.5 py-1 bg-emerald-600/60 rounded-full border border-emerald-400">
-            สถานะ: ออนไลน์
+
+          {/* Benefits Cards */}
+          <div className="bg-white rounded-3xl border border-sky-100 p-6 shadow-xs">
+            <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-4">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>บริการและสิทธิประโยชน์เมื่อคุยใน LINE OA</span>
+            </h4>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <div className="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-800">แชทคุยกับนิติบุคคล</h5>
+                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
+                    พูดคุย สอบถามเรื่องสัญญา กฎระเบียบ หรือขอความช่วยเหลือจากผู้ดูแลหอพักได้โดยตรง
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                  <Wrench className="w-4 h-4" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-800">แจ้งซ่อมแซมด่วน</h5>
+                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
+                    ถ่ายรูปและวิดีโอจุดที่ชำรุดส่งผ่านแชท พร้อมรับแจ้งเตือนเมื่อช่างเข้าซ่อม
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                  <Receipt className="w-4 h-4" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-800">รับบิลค่าเช่า & สแกนจ่าย</h5>
+                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
+                    รับใบแจ้งหนี้ ค่าน้ำ-ค่าไฟ ทุกสิ้นเดือน พร้อม QR Code สแกนจ่ายและส่งสลิปได้ทันที
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
+                  <Package className="w-4 h-4" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-800">แจ้งเตือนพัสดุและข่าวด่วน</h5>
+                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
+                    แจ้งเตือนเมื่อมีพัสดุมาถึง พร้อมรับประกาศไฟดับ น้ำไม่ไหล หรือข่าวด่วนของหอพัก
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Rich Menu Preview */}
+      <div className="bg-white rounded-3xl border border-sky-100 p-6 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 mb-4 gap-2">
+          <div>
+            <h4 className="font-bold text-sm text-slate-800 flex items-center gap-2">
+              <Info className="w-4 h-4 text-emerald-600" />
+              <span>ตัวอย่างเมนูลัด (Rich Menu) ที่ผู้เช่าจะได้ใช้งานในแอป LINE</span>
+            </h4>
+            <p className="text-2xs text-slate-500 mt-0.5">
+              เมื่อคุณแอด LINE หอพัก ด้านล่างของห้องแชทจะมีปุ่มเมนูลัดให้กดใช้งานได้สะดวกทันที
+            </p>
+          </div>
+
+          <span className="text-2xs px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-semibold shrink-0">
+            ระบบเมนูอัตโนมัติ 6 ปุ่ม
           </span>
         </div>
 
-        {/* Message Log */}
-        <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/50">
-          {lineMessages.map((msg) => {
-            const isMe = msg.sender === "tenant";
-            const isBot = msg.sender === "bot";
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
+            <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 mx-auto flex items-center justify-center mb-2">
+              <Receipt className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-800 block">ดูบิลค่าเช่า</span>
+            <span className="text-3xs text-slate-500 block mt-0.5">ค่าน้ำ ค่าไฟ</span>
+          </div>
 
-            return (
-              <div
-                key={msg.id}
-                className={`flex gap-2.5 ${isMe ? "justify-end" : "justify-start"}`}
-              >
-                {!isMe && (
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-white text-xs ${
-                      isBot ? "bg-sky-500" : "bg-emerald-600"
-                    }`}
-                  >
-                    {isBot ? <Bot className="w-4 h-4" /> : <ShieldCheck className="w-4 h-4" />}
-                  </div>
-                )}
+          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 mx-auto flex items-center justify-center mb-2">
+              <Wrench className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-800 block">แจ้งซ่อมแซม</span>
+            <span className="text-3xs text-slate-500 block mt-0.5">เรียกช่างบริการ</span>
+          </div>
 
-                <div className={`max-w-[75%] ${isMe ? "items-end" : "items-start"}`}>
-                  <span className="text-2xs text-slate-400 block px-1 mb-0.5">
-                    {msg.senderName} • {msg.time}
-                  </span>
-                  <div
-                    className={`p-3 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-2xs ${
-                      isMe
-                        ? "bg-emerald-500 text-white rounded-br-xs"
-                        : isBot
-                        ? "bg-sky-50 border border-sky-200 text-slate-800 rounded-bl-xs"
-                        : "bg-white border border-slate-200 text-slate-800 rounded-bl-xs"
-                    }`}
-                  >
-                    {msg.text}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center mb-2">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-800 block">แจ้งชำระเงิน</span>
+            <span className="text-3xs text-slate-500 block mt-0.5">ส่งสลิปโอนเงิน</span>
+          </div>
+
+          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
+            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 mx-auto flex items-center justify-center mb-2">
+              <Package className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-800 block">เช็กพัสดุ</span>
+            <span className="text-3xs text-slate-500 block mt-0.5">จดหมาย / พัสดุ</span>
+          </div>
+
+          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
+            <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 mx-auto flex items-center justify-center mb-2">
+              <Bell className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-800 block">ประกาศหอพัก</span>
+            <span className="text-3xs text-slate-500 block mt-0.5">ข่าวด่วน / กฎ</span>
+          </div>
+
+          <div className="p-4 bg-slate-50 hover:bg-emerald-50/50 border border-slate-200 hover:border-emerald-300 rounded-2xl text-center transition-all">
+            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 mx-auto flex items-center justify-center mb-2">
+              <MessageCircle className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-slate-800 block">ติดต่อนิติ</span>
+            <span className="text-3xs text-slate-500 block mt-0.5">คุยกับผู้ดูแล</span>
+          </div>
         </div>
-
-        {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="p-3 bg-white border-t border-slate-100 flex items-center gap-2">
-          <input
-            type="text"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder={`พิมพ์ข้อความสอบถามในฐานะ ${currentTenant.name}...`}
-            className="flex-1 px-4 py-2 bg-slate-50 rounded-xl text-xs sm:text-sm border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
-          />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-emerald-700 transition-colors flex items-center gap-1.5"
-          >
-            <span>ส่ง</span>
-            <Send className="w-3.5 h-3.5" />
-          </button>
-        </form>
       </div>
     </div>
   );
