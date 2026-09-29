@@ -1,6 +1,16 @@
-// src/components/common/Navbar.jsx
 import React from "react";
-import { Building2, User, ShieldCheck, MessageCircle, Sparkles, Bell } from "lucide-react";
+import {
+  Building2,
+  User,
+  ShieldCheck,
+  MessageCircle,
+  Sparkles,
+  Bell,
+  LogIn,
+  LogOut,
+  KeyRound,
+  Lock,
+} from "lucide-react";
 import { useApp } from "../../context/AppContext";
 
 export const Navbar = () => {
@@ -11,6 +21,10 @@ export const Navbar = () => {
     tenants,
     setCurrentTenantId,
     setTenantActiveTab,
+    isAuthenticated,
+    admin2FAVerified,
+    openAuthModal,
+    logout,
   } = useApp();
 
   return (
@@ -34,7 +48,7 @@ export const Navbar = () => {
           </div>
 
           {/* Center/Right Actions: Role Switcher & User Profile */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             {/* Quick Switch Role Bar */}
             <div className="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200/80">
               <button
@@ -63,7 +77,7 @@ export const Navbar = () => {
 
             {/* If in tenant mode, allow selecting sample tenant */}
             {currentRole === "tenant" && (
-              <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 bg-sky-50 px-3 py-1.5 rounded-lg border border-sky-100">
+              <div className="hidden lg:flex items-center gap-2 text-xs text-slate-500 bg-sky-50 px-2.5 py-1.5 rounded-lg border border-sky-100">
                 <span>เลือกผู้เช่า:</span>
                 <select
                   value={currentTenant.id}
@@ -78,6 +92,17 @@ export const Navbar = () => {
                 </select>
               </div>
             )}
+
+            {/* Login & 2FA Modal Trigger Button (1.3.1.1 / 1.3.2.1) */}
+            <button
+              onClick={() => openAuthModal(currentRole)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 transition-colors shadow-2xs"
+              title="ทดสอบหน้าต่างเข้าสู่ระบบ (Scope 1.3.1.1 & 1.3.2.1)"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-sky-600" />
+              <span className="hidden sm:inline">ทดสอบ Login / 2FA</span>
+              <span className="sm:hidden">Login</span>
+            </button>
 
             {/* Quick LINE OA button */}
             <button

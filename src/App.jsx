@@ -6,6 +6,7 @@ import { Toast } from "./components/common/Toast";
 import { TenantPortal } from "./components/tenant/TenantPortal";
 import { AdminPortal } from "./components/admin/AdminPortal";
 import { AiChatbotModal } from "./components/ai/AiChatbotModal";
+import { AuthModal } from "./components/auth/AuthModal";
 import { Sparkles, Building, CheckCircle2 } from "lucide-react";
 
 const MainContent = () => {
@@ -20,6 +21,9 @@ const MainContent = () => {
       <main className="flex-1 max-w-[1550px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {currentRole === "tenant" ? <TenantPortal /> : <AdminPortal />}
       </main>
+
+      {/* Login & 2FA Modal (1.3.1.1 & 1.3.2.1) */}
+      <AuthModal />
 
       {/* AI Chatbot Floating Widget (1.3.2.29 - 1.3.2.30) */}
       <AiChatbotModal />

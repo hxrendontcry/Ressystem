@@ -23,6 +23,36 @@ export const AppProvider = ({ children }) => {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [admin2FAVerified, setAdmin2FAVerified] = useState(true);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalInitialTab, setAuthModalInitialTab] = useState("tenant"); // 'tenant' | 'admin'
+
+  const openAuthModal = (tab = "tenant") => {
+    setAuthModalInitialTab(tab);
+    setIsAuthModalOpen(true);
+  };
+
+  const loginTenant = (tenantId = "T001") => {
+    setCurrentTenantId(tenantId);
+    setCurrentRole("tenant");
+    setIsAuthenticated(true);
+    setIsAuthModalOpen(false);
+    showToast("เข้าสู่ระบบในฐานะผู้เช่าสำเร็จเรียบร้อยแล้ว", "success");
+  };
+
+  const loginAdmin = () => {
+    setCurrentRole("admin");
+    setIsAuthenticated(true);
+    setAdmin2FAVerified(true);
+    setIsAuthModalOpen(false);
+    showToast("ยืนยันตัวตน 2FA ทางอีเมลสำเร็จ เข้าสู่ระบบผู้ดูแลเรียบร้อยแล้ว", "success");
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    setAdmin2FAVerified(false);
+    showToast("ออกจากระบบเรียบร้อยแล้ว", "info");
+    openAuthModal(currentRole);
+  };
   
   // App Data States
   const [rooms, setRooms] = useState(initialRooms);
@@ -400,6 +430,13 @@ export const AppProvider = ({ children }) => {
         setIsAuthenticated,
         admin2FAVerified,
         setAdmin2FAVerified,
+        isAuthModalOpen,
+        setIsAuthModalOpen,
+        authModalInitialTab,
+        openAuthModal,
+        loginTenant,
+        loginAdmin,
+        logout,
         tenantActiveTab,
         setTenantActiveTab,
         adminActiveTab,
