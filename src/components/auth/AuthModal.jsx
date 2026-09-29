@@ -187,7 +187,7 @@ export const AuthModal = () => {
             <div>
               <h3 className="font-bold text-lg text-white">สุขสบาย เรสซิเดนซ์</h3>
               <p className="text-2xs text-sky-100">
-                ระบบเข้าสู่ระบบตามขอบเขตของโครงงาน (Scope 1.3.1.1 & 1.3.2.1)
+                ระบบเข้าสู่ระบบสำหรับผู้เช่าและผู้ดูแลหอพัก
               </p>
             </div>
           </div>
@@ -229,7 +229,7 @@ export const AuthModal = () => {
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-5">
           {/* ======================================================== */}
-          {/* TAB 1: ผู้เช่า (TENANT LOGIN - 1.3.1.1) */}
+          {/* TAB 1: ผู้เช่า (TENANT LOGIN) */}
           {/* ======================================================== */}
           {activeTab === "tenant" && viewMode === "login" && (
             <form onSubmit={handleTenantLoginSubmit} className="space-y-4">
@@ -239,7 +239,7 @@ export const AuthModal = () => {
                   <span>เข้าสู่ระบบสำหรับผู้เช่า</span>
                 </span>
                 <span className="text-3xs px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 font-semibold border border-sky-200">
-                  ข้อกำหนด 1.3.1.1
+                  สำหรับผู้พักอาศัย
                 </span>
               </div>
 
@@ -298,7 +298,7 @@ export const AuthModal = () => {
                   <span>จดจำการเข้าสู่ระบบ</span>
                 </label>
 
-                {/* 1.3.1.3 Link to Forgot Password */}
+                {/* Link to Forgot Password */}
                 <button
                   type="button"
                   onClick={() => {
@@ -307,7 +307,7 @@ export const AuthModal = () => {
                   }}
                   className="text-sky-600 hover:underline font-semibold"
                 >
-                  ลืมรหัสผ่าน? (1.3.1.3)
+                  ลืมรหัสผ่าน?
                 </button>
               </div>
 
@@ -323,7 +323,7 @@ export const AuthModal = () => {
               {/* Quick Preset Selector for Demo */}
               <div className="pt-3 border-t border-slate-100 space-y-2">
                 <span className="text-3xs text-slate-400 block text-center uppercase tracking-wider font-bold">
-                  ⚡ บัญชีทดสอบด่วนสำหรับอาจารย์/ผู้ตรวจ (Quick Demo)
+                  ⚡ บัญชีทดสอบด่วน (Quick Demo)
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -355,21 +355,21 @@ export const AuthModal = () => {
                 </div>
               </div>
 
-              {/* First-time Activation Link (1.3.2.3) */}
+              {/* First-time Activation Link */}
               <div className="text-center pt-2">
                 <button
                   type="button"
                   onClick={() => setViewMode("activate")}
                   className="text-2xs text-slate-500 hover:text-sky-700"
                 >
-                  ได้รับคำเชิญเข้าพักเป็นครั้งแรก? <span className="font-semibold text-sky-600 underline">เปิดใช้งานบัญชี (1.3.2.3)</span>
+                  ได้รับคำเชิญเข้าพักเป็นครั้งแรก? <span className="font-semibold text-sky-600 underline">เปิดใช้งานบัญชี</span>
                 </button>
               </div>
             </form>
           )}
 
           {/* ======================================================== */}
-          {/* TAB 2: เจ้าของหอพัก / ผู้ดูแล (ADMIN WITH 2FA - 1.3.2.1) */}
+          {/* TAB 2: เจ้าของหอพัก / ผู้ดูแล (ADMIN WITH 2FA) */}
           {/* ======================================================== */}
           {activeTab === "admin" && viewMode === "login" && (
             <div className="space-y-4">
@@ -379,7 +379,7 @@ export const AuthModal = () => {
                   <span>เข้าสู่ระบบผู้ดูแลระบบ (Admin / Owner)</span>
                 </span>
                 <span className="text-3xs px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 font-semibold border border-rose-200">
-                  ข้อกำหนด 1.3.2.1 (2FA)
+                  Two-Factor Authentication
                 </span>
               </div>
 
@@ -543,9 +543,6 @@ export const AuthModal = () => {
                   <KeyRound className="w-4 h-4 text-sky-600" />
                   <span>กู้คืนรหัสผ่านผู้เช่า (Forgot Password)</span>
                 </span>
-                <span className="text-3xs px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 font-semibold border border-sky-200">
-                  ข้อกำหนด 1.3.1.3
-                </span>
               </div>
 
               {!forgotSent ? (
@@ -621,9 +618,6 @@ export const AuthModal = () => {
                 <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
                   <Sparkles className="w-4 h-4 text-emerald-600" />
                   <span>เปิดใช้งานบัญชีผู้เช่าครั้งแรก</span>
-                </span>
-                <span className="text-3xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
-                  ข้อกำหนด 1.3.2.3
                 </span>
               </div>
 

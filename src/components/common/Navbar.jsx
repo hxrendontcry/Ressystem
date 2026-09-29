@@ -40,7 +40,7 @@ export const Navbar = () => {
               <div className="flex items-center gap-2">
                 <span className="font-bold text-lg text-slate-800 tracking-tight">สุขสบาย เรสซิเดนซ์</span>
                 <span className="text-xs bg-sky-100 text-sky-700 font-medium px-2 py-0.5 rounded-full border border-sky-200 hidden sm:inline-block">
-                  Proposal Prototype
+                  Smart Dormitory
                 </span>
               </div>
               <p className="text-xs text-slate-500">ระบบบริหารจัดการหอพักอัจฉริยะ (Dormitory Management)</p>
@@ -93,14 +93,14 @@ export const Navbar = () => {
               </div>
             )}
 
-            {/* Login & 2FA Modal Trigger Button (1.3.1.1 / 1.3.2.1) */}
+            {/* Login & 2FA Modal Trigger Button */}
             <button
               onClick={() => openAuthModal(currentRole)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 transition-colors shadow-2xs"
-              title="ทดสอบหน้าต่างเข้าสู่ระบบ (Scope 1.3.1.1 & 1.3.2.1)"
+              title="เข้าสู่ระบบ / ยืนยันตัวตน 2FA"
             >
               <KeyRound className="w-3.5 h-3.5 text-sky-600" />
-              <span className="hidden sm:inline">ทดสอบ Login / 2FA</span>
+              <span className="hidden sm:inline">เข้าสู่ระบบ / 2FA</span>
               <span className="sm:hidden">Login</span>
             </button>
 

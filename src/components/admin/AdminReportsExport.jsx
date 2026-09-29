@@ -25,7 +25,7 @@ export const AdminReportsExport = () => {
             ออกรายงานและส่งออกข้อมูล (Export Reports: Excel & PDF)
           </h3>
           <p className="text-xs text-slate-500 mt-1">
-            เลือกช่วงเวลาและประเภทรายงานเพื่อสรุปข้อมูลบัญชี การใช้น้ำไฟ และงานซ่อม (1.3.2.30)
+            เลือกช่วงเวลาและประเภทรายงานเพื่อสรุปข้อมูลบัญชี การใช้น้ำไฟ และงานซ่อม
           </p>
         </div>
 
@@ -52,7 +52,7 @@ export const AdminReportsExport = () => {
       <div className="bg-white rounded-2xl border border-sky-100 p-5 shadow-xs grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-semibold text-slate-700 mb-1">
-            ประเภทรายงานที่ต้องการออก (1.3.2.30)
+            ประเภทรายงานที่ต้องการออก
           </label>
           <select
             value={selectedReportType}

@@ -133,7 +133,7 @@ export const AdminInvoiceBilling = () => {
             ระบบออกใบแจ้งหนี้และการเรียกเก็บเงิน (Invoice & Billing)
           </h3>
           <p className="text-xs text-slate-500 mt-1">
-            สร้างใบแจ้งค่าใช้จ่าย คำนวณค่าน้ำ-ค่าไฟอัตโนมัติ ส่ง Email / LINE และบันทึกการชำระเงิน (1.3.2.15 - 1.3.2.18, 1.3.2.20)
+            สร้างใบแจ้งค่าใช้จ่าย คำนวณค่าน้ำ-ค่าไฟอัตโนมัติ ส่ง Email / LINE และบันทึกการชำระเงิน
           </p>
         </div>
 
@@ -146,11 +146,11 @@ export const AdminInvoiceBilling = () => {
         </button>
       </div>
 
-      {/* 1.3.2.17 ติดตามสถานะการชำระเงิน Table */}
+      {/* ติดตามสถานะการชำระเงิน Table */}
       <div className="bg-white rounded-2xl border border-sky-100 p-6 shadow-xs overflow-x-auto">
         <div className="flex items-center justify-between mb-4">
           <h4 className="font-bold text-sm text-slate-800">
-            รายการใบแจ้งหนี้ทั้งหมดและสถานะชำระเงิน (1.3.2.17)
+            รายการใบแจ้งหนี้ทั้งหมดและสถานะชำระเงิน
           </h4>
           <span className="text-xs text-slate-400">ทั้งหมด {invoices.length} รายการ</span>
         </div>
@@ -165,8 +165,8 @@ export const AdminInvoiceBilling = () => {
               <th className="py-3.5 px-4 font-semibold text-right whitespace-nowrap">ยอดรวมสุทธิ</th>
               <th className="py-3.5 px-4 font-semibold whitespace-nowrap">กำหนดชำระ</th>
               <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">สถานะการชำระ</th>
-              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">เตือน LINE (1.3.2.18)</th>
-              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">รับชำระ (1.3.2.20)</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">เตือน LINE</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">รับชำระ</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -310,7 +310,7 @@ export const AdminInvoiceBilling = () => {
           <div className="p-3 bg-sky-50 border border-sky-200 rounded-xl text-2xs text-sky-800 space-y-1">
             <div className="font-bold flex items-center gap-1">
               <Send className="w-3.5 h-3.5" />
-              <span>การจัดส่งอัตโนมัติ (1.3.2.16):</span>
+              <span>การจัดส่งอัตโนมัติ:</span>
             </div>
             <div>• ส่ง Email พร้อมแนบใบแจ้งหนี้ให้ผู้เช่าทันที</div>
             <div>• ส่ง LINE Notification ให้ผู้เช่าพร้อมลิงก์ดูใบแจ้งและ QR PromptPay ทันที</div>

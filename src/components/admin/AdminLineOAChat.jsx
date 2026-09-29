@@ -30,7 +30,7 @@ export const AdminLineOAChat = () => {
               ศูนย์รับส่งข้อความ LINE Official Account (LINE OA Chatbot Center)
             </h3>
             <p className="text-xs text-slate-500">
-              สนทนาโต้ตอบกับผู้เช่าโดยตรง หรือปล่อยให้ AI Chatbot ช่วยตอบคำถามเบื้องต้น (1.3.2.26)
+              สนทนาโต้ตอบกับผู้เช่าโดยตรง หรือปล่อยให้ AI Chatbot ช่วยตอบคำถามเบื้องต้น
             </p>
           </div>
         </div>

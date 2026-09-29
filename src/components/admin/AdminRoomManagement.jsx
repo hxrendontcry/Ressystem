@@ -210,7 +210,7 @@ export const AdminRoomManagement = () => {
             </div>
             <div>
               <h4 className="font-bold text-sm text-slate-800">
-                ข้อกำหนดและสัญลักษณ์สีสถานะห้องพัก (Room Status Specifications)
+                สัญลักษณ์สีและความหมายสถานะห้องพัก (Room Status Guide)
               </h4>
               <p className="text-2xs text-slate-500">
                 มาตรฐานการควบคุมสถานะห้องพักและการจัดการสิทธิ์ผู้เช่า

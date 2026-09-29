@@ -64,7 +64,7 @@ export const AdminSlipVerification = () => {
                 ตรวจสอบสลิปและออกใบเสร็จ (Slip Verification API)
               </h3>
               <p className="text-xs text-slate-500">
-                ระบบตรวจสลิปอัตโนมัติ (SlipOK API Simulation) อนุมัติยอด และออกใบเสร็จรับเงินอัตโนมัติ (1.3.2.19, 1.3.2.21)
+                ระบบตรวจสลิปอัตโนมัติ (SlipOK API Simulation) อนุมัติยอด และออกใบเสร็จรับเงินอัตโนมัติ
               </p>
             </div>
           </div>
@@ -218,7 +218,7 @@ export const AdminSlipVerification = () => {
                           className="flex items-center gap-1.5 px-4 py-2 bg-sky-50 text-sky-700 border border-sky-200 rounded-xl text-xs font-semibold hover:bg-sky-100"
                         >
                           <Receipt className="w-4 h-4" />
-                          <span>ดูใบเสร็จรับเงิน (1.3.2.21)</span>
+                          <span>ดูใบเสร็จรับเงิน</span>
                         </button>
                       )}
                     </div>
@@ -272,11 +272,11 @@ export const AdminSlipVerification = () => {
         </form>
       </Modal>
 
-      {/* Modal: 1.3.2.21 ดูใบเสร็จรับเงินอัตโนมัติ */}
+      {/* Modal: ดูใบเสร็จรับเงินอัตโนมัติ */}
       <Modal
         isOpen={isReceiptModalOpen}
         onClose={() => setIsReceiptModalOpen(false)}
-        title="ใบเสร็จรับเงินอิเล็กทรอนิกส์ (E-Receipt 1.3.2.21)"
+        title="ใบเสร็จรับเงินอิเล็กทรอนิกส์ (E-Receipt)"
         maxWidth="max-w-md"
       >
         {activeReceipt && (

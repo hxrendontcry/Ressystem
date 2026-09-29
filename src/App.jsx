@@ -43,7 +43,7 @@ const MainContent = () => {
 
           <div className="flex items-center gap-1.5 text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
             <CheckCircle2 className="w-3.5 h-3.5 text-sky-600" />
-            <span>ครอบคลุมขอบเขตโครงการ 1.3 ครบทุกฟังก์ชัน (Proposal Ready)</span>
+            <span>ระบบบริหารจัดการหอพักและอพาร์ตเมนต์ออนไลน์</span>
           </div>
         </div>
       </footer>

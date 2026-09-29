@@ -59,7 +59,7 @@ export const AdminContractManagement = () => {
             จัดการสัญญาเช่าและคำขอ (Lease Contracts & Requests)
           </h3>
           <p className="text-xs text-slate-500 mt-1">
-            สร้างสัญญาเช่า, ส่งทาง Email/LINE OA, ตรวจสอบการยืนยันสัญญา และอนุมัติคำขอต่ออายุ/ย้ายออก (1.3.2.7 - 1.3.2.11)
+            สร้างสัญญาเช่า, ส่งทาง Email/LINE OA, ตรวจสอบการยืนยันสัญญา และอนุมัติคำขอต่ออายุ/ย้ายออก
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export const AdminContractManagement = () => {
         </button>
       </div>
 
-      {/* Pending Renewal / Move-out Requests Section (1.3.2.10 & 1.3.2.11) */}
+      {/* Pending Renewal / Move-out Requests Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Renewal Requests */}
         <div className="bg-white rounded-2xl border border-sky-100 p-5 shadow-xs space-y-3">
@@ -82,7 +82,7 @@ export const AdminContractManagement = () => {
               <span>คำขอต่ออายุสัญญา (Renewal Requests)</span>
             </h4>
             <span className="text-2xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full font-semibold">
-              1.3.2.10
+              รออนุมัติ
             </span>
           </div>
 
@@ -139,7 +139,7 @@ export const AdminContractManagement = () => {
               <span>ยืนยันวันแจ้งออกจากห้องพัก (Move-out Confirmation)</span>
             </h4>
             <span className="text-2xs bg-rose-100 text-rose-800 px-2 py-0.5 rounded-full font-semibold">
-              1.3.2.11
+              รอนัดตรวจ
             </span>
           </div>
 
@@ -180,10 +180,10 @@ export const AdminContractManagement = () => {
         </div>
       </div>
 
-      {/* 1.3.2.9 ตรวจสอบสถานะยืนยันสัญญาเช่า Table */}
+      {/* ตรวจสอบสถานะยืนยันสัญญาเช่า Table */}
       <div className="bg-white rounded-2xl border border-sky-100 p-6 shadow-xs overflow-x-auto">
         <h4 className="font-bold text-sm text-slate-800 mb-4">
-          รายการสัญญาเช่าทั้งหมดและสถานะยืนยัน (1.3.2.9)
+          รายการสัญญาเช่าทั้งหมดและสถานะยืนยัน
         </h4>
         <table className="w-full text-xs sm:text-sm text-left">
           <thead>
@@ -194,7 +194,7 @@ export const AdminContractManagement = () => {
               <th className="py-3.5 px-4 font-semibold whitespace-nowrap">วันเริ่ม - สิ้นสุด</th>
               <th className="py-3.5 px-4 font-semibold whitespace-nowrap">วันที่ยืนยันสัญญา</th>
               <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">สถานะยืนยัน</th>
-              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">ส่งสัญญา (1.3.2.8)</th>
+              <th className="py-3.5 px-4 font-semibold text-center whitespace-nowrap">ส่งสัญญา</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-slate-700">
