@@ -6,11 +6,8 @@ import {
   QrCode,
   Copy,
   Check,
-  Wrench,
-  Receipt,
-  Package,
   Smartphone,
-  CheckCircle2,
+  HelpCircle,
 } from "lucide-react";
 import { useApp } from "../../context/AppContext";
 
@@ -50,218 +47,178 @@ export const TenantLineOALink = () => {
         </div>
       </div>
 
-      {/* Main Grid: QR Code & Connection Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Main Grid: QR Code & Connection Steps */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Left Column: QR Code & Quick Add */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-sky-100 p-6 shadow-xs flex flex-col items-center text-center">
-          <div className="w-full flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                <MessageCircle className="w-4 h-4" />
+        <div className="lg:col-span-5 bg-white rounded-3xl border border-sky-100 p-6 shadow-xs flex flex-col items-center text-center justify-between">
+          <div className="w-full">
+            <div className="w-full flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <h4 className="font-bold text-sm text-slate-800">สุขสบาย เรสซิเดนซ์</h4>
+                  <span className="text-2xs text-emerald-600 font-medium">บัญชีทางการ (Verified Account)</span>
+                </div>
               </div>
-              <div className="text-left">
-                <h4 className="font-bold text-sm text-slate-800">สุขสบาย เรสซิเดนซ์</h4>
-                <span className="text-2xs text-emerald-600 font-medium">บัญชีทางการ (Verified Account)</span>
-              </div>
+              <span className="text-2xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
+                ออนไลน์ 24 ชม.
+              </span>
             </div>
-            <span className="text-2xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
-              ออนไลน์ 24 ชม.
-            </span>
-          </div>
 
-          {/* QR Code Container */}
-          <div className="relative p-4 bg-slate-50 border-2 border-dashed border-emerald-200 rounded-2xl my-2">
-            <div className="w-52 h-52 bg-white rounded-xl shadow-xs border border-slate-200 flex items-center justify-center p-3 relative overflow-hidden">
-              {qrLoaded ? (
-                <img
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fline.me%2FR%2Fti%2Fp%2F%40suksabai_oa"
-                  alt="LINE OA QR Code"
-                  className="w-full h-full object-contain"
-                  onError={() => setQrLoaded(false)}
-                />
-              ) : (
-                <div className="w-full h-full bg-slate-900 rounded-lg flex flex-col items-center justify-center text-white p-3 relative">
-                  <QrCode className="w-36 h-36 text-white" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white shadow-md font-bold text-xs">
+            {/* QR Code Container */}
+            <div className="relative p-4 bg-slate-50 border-2 border-dashed border-emerald-200 rounded-2xl my-2">
+              <div className="w-52 h-52 bg-white rounded-xl shadow-xs border border-slate-200 flex items-center justify-center p-3 mx-auto relative overflow-hidden">
+                {qrLoaded ? (
+                  <img
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fline.me%2FR%2Fti%2Fp%2F%40suksabai_oa"
+                    alt="LINE OA QR Code"
+                    className="w-full h-full object-contain"
+                    onError={() => setQrLoaded(false)}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-slate-900 rounded-lg flex flex-col items-center justify-center text-white p-3 relative">
+                    <QrCode className="w-36 h-36 text-white" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white shadow-md font-bold text-xs">
+                        LINE
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* LINE badge in center */}
+                {qrLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-9 h-9 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white shadow-md font-bold text-2xs">
                       LINE
                     </div>
                   </div>
-                </div>
-              )}
-
-              {/* LINE badge in center */}
-              {qrLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-9 h-9 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white shadow-md font-bold text-2xs">
-                    LINE
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
+              <span className="block text-2xs text-slate-500 font-medium mt-2">
+                สแกนด้วยกล้องมือถือ หรือแอป LINE
+              </span>
             </div>
-            <span className="block text-2xs text-slate-500 font-medium mt-2">
-              สแกนด้วยกล้องมือถือ หรือแอป LINE
-            </span>
+
+            {/* LINE ID Box */}
+            <div className="w-full mt-3 p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl flex items-center justify-between">
+              <div className="text-left">
+                <span className="text-3xs text-emerald-800 uppercase font-bold tracking-wider block">
+                  LINE Official ID
+                </span>
+                <span className="font-mono text-sm font-extrabold text-slate-800">
+                  {lineId}
+                </span>
+              </div>
+              <button
+                onClick={handleCopyId}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  copied
+                    ? "bg-emerald-600 text-white"
+                    : "bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50 shadow-2xs"
+                }`}
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    <span>คัดลอกแล้ว</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>คัดลอก ID</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* LINE ID Box */}
-          <div className="w-full mt-3 p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl flex items-center justify-between">
-            <div className="text-left">
-              <span className="text-3xs text-emerald-800 uppercase font-bold tracking-wider block">
-                LINE Official ID
-              </span>
-              <span className="font-mono text-sm font-extrabold text-slate-800">
-                {lineId}
-              </span>
-            </div>
-            <button
-              onClick={handleCopyId}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                copied
-                  ? "bg-emerald-600 text-white"
-                  : "bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50 shadow-2xs"
-              }`}
+          <div className="w-full mt-4">
+            {/* Primary Action Button */}
+            <a
+              href={lineAddFriendUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="w-full flex items-center justify-center gap-2 py-3 bg-emerald-600 text-white rounded-2xl text-xs sm:text-sm font-bold shadow-md hover:bg-emerald-700 hover:shadow-lg transition-all"
             >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5" />
-                  <span>คัดลอกแล้ว</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5" />
-                  <span>คัดลอก ID</span>
-                </>
-              )}
-            </button>
+              <span>เปิดแอป LINE เพื่อเพิ่มเพื่อนทันที</span>
+              <ExternalLink className="w-4 h-4" />
+            </a>
+
+            <p className="text-3xs text-slate-400 mt-2.5">
+              * หากใช้งานบนโทรศัพท์มือถือ ปุ่มนี้จะเปิดแอปพลิเคชัน LINE ให้คุณโดยอัตโนมัติ
+            </p>
           </div>
-
-          {/* Primary Action Button */}
-          <a
-            href={lineAddFriendUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-emerald-600 text-white rounded-2xl text-xs sm:text-sm font-bold shadow-md hover:bg-emerald-700 hover:shadow-lg transition-all"
-          >
-            <span>เปิดแอป LINE เพื่อเพิ่มเพื่อนทันที</span>
-            <ExternalLink className="w-4 h-4" />
-          </a>
-
-          <p className="text-3xs text-slate-400 mt-3">
-            * หากใช้งานบนโทรศัพท์มือถือ ปุ่มนี้จะเปิดแอปพลิเคชัน LINE ให้คุณโดยอัตโนมัติ
-          </p>
         </div>
 
-        {/* Right Column: Connection Steps & Advantages */}
-        <div className="lg:col-span-7 space-y-6">
-          {/* 3 Steps Guide */}
-          <div className="bg-white rounded-3xl border border-sky-100 p-6 shadow-xs">
-            <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-4">
-              <Smartphone className="w-4 h-4 text-emerald-600" />
-              <span>3 ขั้นตอนง่ายๆ ในการเริ่มพูดคุยใน LINE</span>
-            </h4>
+        {/* Right Column: 3 Steps Guide */}
+        <div className="lg:col-span-7 bg-white rounded-3xl border border-sky-100 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+              <h4 className="text-base font-bold text-slate-800 flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <Smartphone className="w-4 h-4" />
+                </div>
+                <span>3 ขั้นตอนง่ายๆ ในการเริ่มพูดคุยใน LINE</span>
+              </h4>
+              <span className="text-2xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full">
+                วิธีใช้งาน
+              </span>
+            </div>
 
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-9 h-9 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-sm font-extrabold shrink-0 shadow-xs">
                   1
                 </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-800">
+                <div className="space-y-1">
+                  <h5 className="text-sm font-bold text-slate-800">
                     สแกน QR Code หรือค้นหา LINE ID
                   </h5>
-                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
-                    เปิดแอป LINE บนมือถือของคุณ เลือกเมนู “เพิ่มเพื่อน” แล้วสแกนภาพ QR Code ทางด้านซ้าย หรือพิมพ์ค้นหาด้วยไอดี <span className="font-semibold text-emerald-700">{lineId}</span>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    เปิดแอป LINE บนมือถือของคุณ เลือกเมนู “เพิ่มเพื่อน” แล้วสแกนภาพ QR Code ทางด้านซ้าย หรือพิมพ์ค้นหาด้วยไอดี <span className="font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">{lineId}</span>
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">
+              <div className="flex items-start gap-4">
+                <div className="w-9 h-9 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-sm font-extrabold shrink-0 shadow-xs">
                   2
                 </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-800">
+                <div className="space-y-1">
+                  <h5 className="text-sm font-bold text-slate-800">
                     กดปุ่ม "เพิ่มเพื่อน" (Add Friend)
                   </h5>
-                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
-                    กดยืนยันเพิ่มเพื่อนกับบัญชีทางการ “สุขสบาย เรสซิเดนซ์” คุณจะได้รับข้อความต้อนรับและเมนูบริการอัตโนมัติ
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    กดยืนยันเพิ่มเพื่อนกับบัญชีทางการ “สุขสบาย เรสซิเดนซ์” คุณจะได้รับข้อความต้อนรับและพร้อมเริ่มการสนทนาในห้องแชทได้ทันที
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold shrink-0">
+              <div className="flex items-start gap-4">
+                <div className="w-9 h-9 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-sm font-extrabold shrink-0 shadow-xs">
                   3
                 </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-800">
-                    ส่งข้อความแจ้งเลขห้องพักเพื่อเริ่มสนทนา
+                <div className="space-y-1">
+                  <h5 className="text-sm font-bold text-slate-800">
+                    ส่งข้อความแจ้งชื่อและเลขห้องพัก
                   </h5>
-                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
-                    พิมพ์ส่งข้อความ เช่น <span className="font-semibold text-slate-700">“สวัสดีครับ {currentTenant.name} ห้อง {currentTenant.assignedRoom}”</span> เพื่อให้เจ้าหน้าที่และระบบบันทึกการเชื่อมต่อบัญชี
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    พิมพ์ส่งข้อความ เช่น <span className="font-semibold text-slate-800 bg-slate-100 px-2 py-0.5 rounded">“สวัสดีครับ {currentTenant.name} ห้อง {currentTenant.assignedRoom}”</span> เพื่อให้เจ้าหน้าที่และระบบผูกบัญชีผู้เช่าของคุณเข้ากับระบบหอพัก
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Benefits Cards */}
-          <div className="bg-white rounded-3xl border border-sky-100 p-6 shadow-xs">
-            <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-4">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>บริการและสิทธิประโยชน์เมื่อคุยใน LINE OA</span>
-            </h4>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
-                  <MessageCircle className="w-4 h-4" />
-                </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-800">แชทคุยกับนิติบุคคล</h5>
-                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
-                    พูดคุย สอบถามเรื่องสัญญา กฎระเบียบ หรือขอความช่วยเหลือจากผู้ดูแลหอพักได้โดยตรง
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
-                  <Wrench className="w-4 h-4" />
-                </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-800">แจ้งซ่อมแซมด่วน</h5>
-                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
-                    ถ่ายรูปและวิดีโอจุดที่ชำรุดส่งผ่านแชท พร้อมรับแจ้งเตือนเมื่อช่างเข้าซ่อม
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                  <Receipt className="w-4 h-4" />
-                </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-800">รับบิลค่าเช่า & สแกนจ่าย</h5>
-                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
-                    รับใบแจ้งหนี้ ค่าน้ำ-ค่าไฟ ทุกสิ้นเดือน พร้อม QR Code สแกนจ่ายและส่งสลิปได้ทันที
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
-                  <Package className="w-4 h-4" />
-                </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-800">แจ้งเตือนพัสดุและข่าวด่วน</h5>
-                  <p className="text-2xs text-slate-500 mt-0.5 leading-relaxed">
-                    แจ้งเตือนเมื่อมีพัสดุมาถึง พร้อมรับประกาศไฟดับ น้ำไม่ไหล หรือข่าวด่วนของหอพัก
-                  </p>
-                </div>
-              </div>
-            </div>
+          {/* Quick Notice Box */}
+          <div className="mt-6 p-4 rounded-2xl bg-sky-50/60 border border-sky-200 flex items-start gap-3">
+            <HelpCircle className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
+            <p className="text-2xs text-slate-600 leading-relaxed">
+              <span className="font-bold text-sky-900">คำแนะนำ:</span> หลังจากเพิ่มเพื่อนแล้ว คุณสามารถพิมพ์ข้อความสอบถาม แจ้งปัญหาห้องพัก หรือส่งหลักฐานสลิปโอนเงินผ่านห้องแชท LINE ได้ตลอดเวลา เจ้าหน้าที่นิติบุคคลจะได้รับข้อความและตอบกลับคุณผ่านแอป LINE โดยตรงครับ
+            </p>
           </div>
         </div>
       </div>
